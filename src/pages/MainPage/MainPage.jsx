@@ -22,7 +22,7 @@ export const MainPage = () => {
 						LINE
 					</span>
 				</div>
-				Borrow a price-protected token
+				A price-protected token
 			</div>
 
 			<div className="relative flex flex-col-reverse lg:flex-row lg:space-x-5 mt-[50px] max-w-4xl mx-auto">
@@ -71,7 +71,7 @@ export const MainPage = () => {
 						<img src="/protectionChart.svg" className="mt-5" />
 
 						<div className="mt-2 text-sm text-gray-300">
-							If it grows, you can book the profit. If it falls, you can get
+							If it grows, you can book a profit. If it falls, you can get
 							your collateral back (less fees). You are always above a certain
 							line.
 						</div>
@@ -81,8 +81,8 @@ export const MainPage = () => {
 
 			<div className="max-w-4xl mx-auto">
 				<div className="max-w-lg mt-4 text-xs text-gray-500">
-					Bridge your LINE tokens to Obyte and get rewarded from Kava Rise for
-					just holding them. Estimated APY is 7%.
+					Bridge your LINE tokens to <a href="https://obyte.org" target="_blank" rel="noopener" className="text-primary">Obyte</a> and get rewarded from Kava Rise for
+					just holding them. Estimated APY is 7%. Track your rewards at <a href="https://kava.obyte.org" target="_blank" rel="noopener" className="text-primary">kava.obyte.org</a>.
 				</div>
 			</div>
 		</div>

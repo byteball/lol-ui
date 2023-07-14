@@ -3,7 +3,9 @@ import { PageLayout } from "@/components/templates";
 export const AboutPage = () => (
 	<PageLayout
 		title="About us"
-		description="LINE token was created by developers of Obyte — a DAG based distributed ledger. In Obyte DAG, unlike blockchains, there are no miners (block producers) and users have direct access to the ledger, without any intermediaries.This absence of big power centers makes DAG censorship-resistant, more decentralized, and eliminates MEV (miner extractable value)."
+		description={<span>
+			LINE token was created by developers of <a href="https://obyte.org" target="_blank" rel="noopener" className="text-primary">Obyte</a> — a DAG based distributed ledger. In Obyte DAG, unlike blockchains, there are no miners (block producers) and users have direct access to the ledger, without any intermediaries.This absence of big power centers makes DAG censorship-resistant, more decentralized, and eliminates MEV (miner extractable value).
+		</span>}
 	>
 		<p className="mb-5 text-white/60">
 			We’ve created other unique applications, most of which are available only
@@ -20,9 +22,10 @@ export const AboutPage = () => (
 					</div>
 					<div>
 						<a
-							href="https://oswap.io/"
+							href="https://counterstake.org/"
 							className="text-primary"
 							target="_blank"
+							rel="noopener"
 						>
 							counterstake.org
 						</a>
@@ -59,9 +62,10 @@ export const AboutPage = () => (
 					</div>
 					<div>
 						<a
-							href="https://counterstake.org/"
+							href="https://oswap.io/"
 							className="text-primary"
 							target="_blank"
+							rel="noopener"
 						>
 							oswap.io
 						</a>
@@ -81,6 +85,7 @@ export const AboutPage = () => (
 							href="https://kivach.org/"
 							className="text-primary"
 							target="_blank"
+							rel="noopener"
 						>
 							kivach.org
 						</a>
@@ -121,6 +126,7 @@ export const AboutPage = () => (
 							href="https://prophet.ooo/"
 							className="text-primary"
 							target="_blank"
+							rel="noopener"
 						>
 							prophet.ooo
 						</a>

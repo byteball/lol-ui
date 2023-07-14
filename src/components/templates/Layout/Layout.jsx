@@ -17,7 +17,7 @@ export const Layout = ({ children }) => {
 				<Notifications />
 			</div>
 			<div className="text-center text-white/60 mt-[-30px] pb-2 font-light">
-				<a href="https://obyte.org">
+				<a href="https://obyte.org" target="_blank" rel="noopener">
 					&copy; {new Date().getFullYear()} Obyte. All Rights Reserved.
 				</a>
 			</div>

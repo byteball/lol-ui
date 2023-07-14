@@ -12,15 +12,15 @@ const faqs = [
 				<p>
 					The simplest way takes advantage of the Kava Rise program which
 					rewards dapps for their TVL on Kava. We have two such dapps:
-					Counterstake bridge and LINE. You would contribute to the TVL of both
+					{" "}<a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake bridge</a> and LINE. You would contribute to the TVL of both
 					dapps, thus making every dollar of your capital work twice.
 				</p>
 				Follow these steps:
 				<ol>
 					<li>
-						Bridge your GBYTEs from Obyte to Kava over Counterstake bridge (if
+						Bridge your GBYTEs from <a href="https://obyte.org" target="_blank" rel="noopener" className="text-primary">Obyte</a> to Kava over <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake bridge</a> (if
 						you are already an Obyte user. Otherwise, you can buy GBYTEs on
-						Equilibre DEX on Kava).
+						<a href="https://equilibrefinance.com/" target="_blank" rel="noopener" className="text-primary">Equilibre DEX</a> on Kava).
 					</li>
 					<li>Use your GBYTE-on-Kava to borrow LINE tokens here.</li>
 					<li>Bridge your LINE tokens (back) to Obyte.</li>
@@ -29,7 +29,7 @@ const faqs = [
 						for their TVL on the Kava network. We receive these rewards monthly
 						and distribute most of them to users who bridged their tokens from
 						Kava to Obyte (which you did). You’ll receive your share of rewards
-						monthly to your Obyte wallet, you don’t have to do anything else.
+						monthly to your Obyte wallet, you don’t have to do anything else. Track your rewards at <a href="https://kava.obyte.org" target="_blank" rel="noopener" className="text-primary">kava.obyte.org</a>.
 					</li>
 					<li>
 						When you want to get your collateral back, bridge your LINE tokens
@@ -111,14 +111,14 @@ const faqs = [
 		answer: (
 			<div>
 				<p>
-					Kava Rise is an initiative of Kava network to reward dapps that
+					<a href="https://www.kava.io/rise/developer-rewards" target="_blank" rel="noopener" className="text-primary">Kava Rise</a> is an initiative of Kava network to reward dapps that
 					contribute to Kava’s TVL. Kava gives out 1,000,000 KAVA tokens
 					(roughly $1m at the current exchange rate) every month to developers
-					of all participating dapps in proportion to their share of Kava’s
-					total TVL as determined by DefiLlama.
+					of all participating dapps in proportion to their share of <a href="https://defillama.com/chain/Kava" target="_blank" rel="noopener" className="text-primary">Kava's
+					total TVL as determined by DefiLlama</a>.
 				</p>
 				<p>
-					Our dapps LINE and Counterstake participate in this program and get a
+					Our dapps LINE and <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake</a> participate in this program and get a
 					share of these rewards. While the teams of some other participating
 					dapps keep their Kava Rise rewards in their treasuries, we convert
 					them to GBYTE and distribute most of the rewards to the users who
@@ -129,6 +129,36 @@ const faqs = [
 					opportunity to double it by locking both GBYTE in order to borrow LINE
 					tokens here, and then locking LINE tokens in the Counterstake bridge
 					in order to bridge them to Obyte.
+				</p>
+			</div>
+		),
+	},
+	{
+		question: "What makes LINE token special?",
+		answer: (
+			<div>
+				<p>
+					It’s price-protected if you borrow it (but not if you buy). When you
+					borrow, you get both LINE tokens and a right to repay the loan and get
+					your collateral back (minus fees) if the token’s price falls.
+				</p>
+				<p>
+					This loan is like a put option, which is commonly used for hedging
+					long positions. Options are not free, they have to be paid for, even
+					if eventually not used. Likewise, you pay for the hedge by paying the
+					origination fee and interest.
+				</p>
+				<p>
+					So, when you borrow LINE tokens you get a “package” of both the tokens
+					and the hedge against price drop, and you don’t have to bother about
+					buying the hedge separately (which is not always possible).
+				</p>
+				<p>
+					If you feel like you don’t need the hedge, you can sell it{" "}
+					<Link to="/market" className="text-primary">
+						on the market
+					</Link>{" "}
+					for profit and hold the token alone.
 				</p>
 			</div>
 		),
@@ -162,7 +192,7 @@ const faqs = [
 			<div>
 				<p>
 					For put options, strike price is the price at which you can sell an
-					asset, that is LINE tokens for GBYTE. Every loan is a put option, and
+					asset, that is LINE tokens for GBYTE. Every loan here is a put option, and
 					the strike price shows how many GBYTEs you would get per 1 LINE token
 					if you were to repay the loan.
 				</p>
@@ -174,36 +204,6 @@ const faqs = [
 					As interest accrues on your loan, its strike price gradually
 					decreases. This decrease reflects the cost of keeping your hedge open
 					and protecting your LINE position.
-				</p>
-			</div>
-		),
-	},
-	{
-		question: "What makes LINE token special?",
-		answer: (
-			<div>
-				<p>
-					It’s price-protected if you borrow it (but not if you buy). When you
-					borrow, you get both LINE tokens and a right to repay the loan and get
-					your collateral back (minus fees) if the token’s price falls.
-				</p>
-				<p>
-					This loan is like a put option, which is commonly used for hedging
-					long positions. Options are not free, they have to be paid for, even
-					if eventually not used. Likewise, you pay for the hedge by paying the
-					origination fee and interest.
-				</p>
-				<p>
-					So, when you borrow LINE tokens you get a “package” of both the tokens
-					and the hedge against price drop, and you don’t have to bother about
-					buying the hedge separately (which is not always possible).
-				</p>
-				<p>
-					If you feel like you don’t need the hedge, you can sell it{" "}
-					<Link to="/market" className="text-primary">
-						on the market
-					</Link>{" "}
-					for profit and hold the token alone.
 				</p>
 			</div>
 		),
@@ -244,10 +244,26 @@ const faqs = [
 			<div>
 				<p>
 					To determine how many LINE tokens you can borrow for your collateral,
-					we use the latest market price of LINE on Equilibre DEX in combination
+					we use the latest market price of <a href="https://equilibrefinance.com/liquidity/0xfb1efb5fd9dfb72f40b81bc5aa0e15d616ba8831" target="_blank" rel="noopener" className="text-primary">LINE on Equilibre DEX</a> in combination
 					with time-weighted average price (TWAP) over the last day. To prevent
 					price manipulation, we use the higher of the latest market and TWAP
 					prices.
+				</p>
+			</div>
+		),
+	},
+	{
+		question:
+			"What happens if the LINE price grows and the loan value exceeds my collateral?",
+		answer: (
+			<div>
+				<p>
+					Nothing. Unlike other CDP (collateral debt position) based DeFi apps,
+					such as DAI, you are not liquidated. You can sell your LINE tokens on
+					the market for profit and forget about your loan. Or, you can continue
+					holding your LINE tokens hoping that the price grows even more. If you
+					sold, and then the price of LINE goes below the collateral value, you
+					can buy LINE from the market and repay the loan, again for profit.
 				</p>
 			</div>
 		),
@@ -279,22 +295,6 @@ const faqs = [
 		),
 	},
 	{
-		question:
-			"What happens if the LINE price grows and the loan value exceeds my collateral?",
-		answer: (
-			<div>
-				<p>
-					Nothing. Unlike other CDP (collateral debt position) based DeFi apps,
-					such as DAI, you are not liquidated. You can sell your LINE tokens on
-					the market for profit and forget about your loan. Or, you can continue
-					holding your LINE tokens hoping that the price grows even more. If you
-					sold, and then the price of LINE goes below the collateral value, you
-					can buy LINE from the market and repay the loan, again for profit.
-				</p>
-			</div>
-		),
-	},
-	{
 		question: "Can I earn by providing liquidity?",
 		answer: (
 			<div>
@@ -304,7 +304,7 @@ const faqs = [
 					the staking page
 				</Link>{" "}
 				and get rewards in LINE tokens. The rewards are funded by fees collected
-				from borrowers. Eligible pools are listed{" "}
+				from borrowers. Eligible pools are listed on{" "}
 				<Link to="/staking/all" className="text-primary">
 					the staking page
 				</Link>
@@ -320,7 +320,7 @@ export const FaqPage = () => (
 		description={
 			<span>
 				Can't find the answer you're looking for? Ask on{" "}
-				<a href="#" className="text-primary/70">
+				<a href="https://discord.obyte.org" target="_blank" rel="noopener" className="text-primary/70">
 					Obyte discord
 				</a>
 				.
