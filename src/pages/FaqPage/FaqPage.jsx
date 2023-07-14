@@ -334,7 +334,7 @@ export const FaqPage = () => (
 						<>
 							<dt>
 								<Disclosure.Button className="flex items-start justify-between w-full text-left text-white">
-									<span className="text-xl font-semibold leading-7">
+									<span className="text-2xl font-semibold leading-7">
 										{faq.question}
 									</span>
 									<span className="flex items-center ml-6 h-7">
