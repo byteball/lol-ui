@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { parseUnits } from "ethers";
+import { ethers, parseUnits } from "ethers";
 
 import { Input } from "@/components/atoms";
 import { MetaMaskButton, QuestionTooltip } from "@/components/molecules";
@@ -18,14 +18,16 @@ import {
 	getCountOfDecimals,
 	recognizeMetamaskError,
 } from "@/utils";
-import appConfig from "@/appConfig";
+import { selectLinePrice } from "@/store/slices/priceSlice";
 
 const INIT_COLLATERAL = 1;
 
-const getLoanAmount = (collateralAmount) => {
-	// TODO: Fix for oracle
-
-	return collateralAmount * 1000;
+const getLoanAmount = (collateralAmount, oracle, price) => {
+	if (oracle === ethers.ZeroAddress) {
+		return collateralAmount * 1000;
+	} else {
+		return collateralAmount / price;
+	}
 };
 
 export const OpenLoanForm = () => {
@@ -37,10 +39,10 @@ export const OpenLoanForm = () => {
 
 	const symbol = useSelector(selectSymbol);
 	const collateralSymbol = useSelector(selectCollateralSymbol);
+	const price = useSelector(selectLinePrice);
 	const params = useSelector(selectParams);
 
-	const { originationFee, interestRate, totalRewardShare } =
-		useSelector(selectParams);
+	const { originationFee, interestRate } = useSelector(selectParams);
 
 	const handleKeyDown = (ev) => {
 		if (ev.code === "Enter" || ev.code === "NumpadEnter") {
@@ -49,8 +51,8 @@ export const OpenLoanForm = () => {
 	};
 
 	useEffect(() => {
-		handleCollateralChange(null, INIT_COLLATERAL);
-	}, []);
+		handleCollateralChange(null, Number(collateral.value) || INIT_COLLATERAL);
+	}, [price]);
 
 	const handleCollateralChange = (ev, v) => {
 		const value = v || ev.target.value.trim();
@@ -62,7 +64,7 @@ export const OpenLoanForm = () => {
 			setCollateral({ value, valid });
 
 			if (valid) {
-				const loanAmount = getLoanAmount(Number(value));
+				const loanAmount = getLoanAmount(Number(value), params.oracle, price);
 
 				setLoan({ value: loanAmount, valid: true });
 			} else {

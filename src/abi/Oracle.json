@@ -43,7 +43,20 @@
 	},
 	{
 		"inputs": [],
-		"name": "priceCumulativeLast",
+		"name": "reserve0CumulativeLast",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "reserve1CumulativeLast",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -60,7 +73,7 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "price0Average",
+				"name": "priceAverage",
 				"type": "uint256"
 			}
 		],
@@ -73,7 +86,7 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "price0Average",
+				"name": "priceAverage",
 				"type": "uint256"
 			}
 		],

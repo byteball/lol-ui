@@ -8,11 +8,13 @@ import { LoanList } from "@/components/organisms";
 
 import { selectWasFirstInited } from "@/store/slices/settingsSlice";
 import { selectParams } from "@/store/slices/paramsSlice";
+import { selectLinePrice } from "@/store/slices/priceSlice";
 
 export const MainPage = () => {
 	const [tab, setTab] = useState("borrow");
 	const wasFirstInited = useSelector(selectWasFirstInited);
 	const { inited } = useSelector(selectParams);
+	const price = useSelector(selectLinePrice);
 
 	return (
 		<div>
@@ -27,7 +29,7 @@ export const MainPage = () => {
 
 			<div className="relative flex flex-col-reverse lg:flex-row lg:space-x-5 mt-[50px] max-w-4xl mx-auto">
 				<div className="z-50 h-[100%] p-3 mt-5 text-gray-400 border-2 shadow-xl lg:mt-0 basis-2/3 sm:p-5 xs:p-4 bg-gray-950 border-primary/30 shadow-gray-950 rounded-xl">
-					{wasFirstInited && inited ? (
+					{(wasFirstInited && inited && price) ? (
 						<>
 							<Tabs value={tab} onChange={(v) => setTab(v)}>
 								<Tabs.Item value="borrow">Borrow</Tabs.Item>

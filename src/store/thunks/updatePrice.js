@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ethers, formatUnits } from "ethers";
 
-import { ethers } from "ethers";
+import OracleAbi from "@/abi/Oracle";
+import { provider } from "@/services/provider";
 
 export const updatePrice = createAsyncThunk(
 	"update_price",
@@ -10,8 +12,12 @@ export const updatePrice = createAsyncThunk(
 		if (state.params.oracle === ethers.ZeroAddress) {
 			return 0.001;
 		} else {
-			// TODO: fix it when we will have a oracle
-			return 0;
+			const oracleContract = new ethers.Contract(state.params.oracle, OracleAbi, provider);
+
+			const currentPrice = await oracleContract.getCurrentPrice();
+			const averagePrice = await oracleContract.getAveragePrice();
+
+			return currentPrice > averagePrice ? +formatUnits(BigInt(currentPrice), 18) : +formatUnits(BigInt(averagePrice), 18);
 		}
 	}
 );
