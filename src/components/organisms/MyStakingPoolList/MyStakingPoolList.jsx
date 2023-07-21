@@ -78,7 +78,7 @@ const MyStakingPoolItem = ({
 					<div>Pool</div>
 				</div>
 				<a
-					href={`${appConfig.RPC_META.blockExplorerUrls[0]}address/${address}`}
+					href={`https://equilibrefinance.com/liquidity/${address}`}
 					target="_blank"
 					className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"
 				>

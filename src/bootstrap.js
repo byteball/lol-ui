@@ -109,7 +109,7 @@ export const bootstrap = async () => {
 		store.dispatch(saveAddressAndLoadLoans(state.settings.walletAddress));
 	}
 
-	if (Number(state.pools.updatedAt) < Date.now() - 3600 * 24 * 1000) {
+	if (Number(state.pools.updatedAt) < Date.now() - 3600 * 1000) {
 		console.log("log: update staking pool list");
 		store.dispatch(loadStakingPools());
 	} else if (state.settings.walletAddress) {
