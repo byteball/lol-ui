@@ -9,6 +9,7 @@ import { LoanList } from "@/components/organisms";
 import { selectWasFirstInited } from "@/store/slices/settingsSlice";
 import { selectParams } from "@/store/slices/paramsSlice";
 import { selectLinePrice } from "@/store/slices/priceSlice";
+import { EquilibreSwapForm } from "@/forms/EquilibreSwapForm/EquilibreSwapForm";
 
 export const MainPage = () => {
 	const [tab, setTab] = useState("borrow");
@@ -34,10 +35,13 @@ export const MainPage = () => {
 							<Tabs value={tab} onChange={(v) => setTab(v)}>
 								<Tabs.Item value="borrow">Borrow</Tabs.Item>
 								<Tabs.Item value="my">My loans</Tabs.Item>
+								<Tabs.Item value="equilibre">Swap via Equilibre</Tabs.Item>
 							</Tabs>
 
 							<div className="mt-7">
-								{tab === "borrow" ? <OpenLoanForm /> : <LoanList />}
+								{tab === "borrow" && <OpenLoanForm />}
+								{tab === "my" && <LoanList />}
+								{tab === "equilibre" && <EquilibreSwapForm />}
 							</div>
 						</>
 					) : (

@@ -1,0 +1,230 @@
+import { Contract, formatUnits, parseUnits } from "ethers";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { isNaN } from "lodash";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import cn from "classnames";
+
+import { Input } from "@/components/atoms"
+import { MetaMaskButton } from "@/components/molecules";
+
+import { selectCollateralSymbol, selectCollateralTokenAddress, selectDecimals, selectSymbol, selectWalletAddress } from "@/store/slices/settingsSlice"
+import { sendNotification } from "@/store/thunks/sendNotification";
+
+import { getCountOfDecimals, recognizeMetamaskError, toLocalString } from "@/utils";
+
+import { provider } from "@/services/provider";
+import contractAPI from "@/services/contractAPI";
+import { useLazyEffect } from "@/hooks";
+
+import equilibreABI from "@/abi/EquilibreRouter.json";
+
+import appConfig from "@/appConfig";
+
+export const EquilibreSwapForm = () => {
+  const [type, setType] = useState("buy");
+  const [loading, setLoading] = useState(false);
+  const [tokenAmount, setTokenAmount] = useState({ value: "", valid: false, calculating: true });
+  const [collateralAmount, setCollateralAmount] = useState({ value: "1", valid: true, calculating: false });
+
+  const btnRef = useRef();
+
+  const symbol = useSelector(selectSymbol);
+  const decimals = useSelector(selectDecimals);
+  const collateralTokenAddress = useSelector(selectCollateralTokenAddress);
+  const collateralSymbol = useSelector(selectCollateralSymbol);
+  const walletAddress = useSelector(selectWalletAddress);
+
+  const dispatch = useDispatch();
+
+  // update rate
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      if (type === "buy") {
+        setTokenAmount((t) => ({ ...t, calculating: true }));
+      } else {
+        setCollateralAmount((c) => ({ ...c, calculating: true }));
+      }
+    }, 1000 * 20);
+
+    return () => {
+      clearInterval(intervalID)
+    }
+  }, [type])
+
+  const tokenHandleChange = (ev, v) => {
+    const value = v || ev.target.value.trim();
+    const valid = !isNaN(Number(value)) && Number(value) > 0;
+
+    if (value === "." || value === ",") {
+      setTokenAmount({ value: "0.", valid: false });
+    } else if (
+      getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
+      Number(value) <= 1e6 &&
+      Number(value) >= 0
+    ) {
+      setTokenAmount({ value, valid });
+      setCollateralAmount({ value: "", valid: false, calculating: true });
+    }
+  };
+
+  const collateralHandleChange = (ev, v) => {
+    const value = v || ev.target.value.trim();
+    const valid = !isNaN(Number(value)) && Number(value) > 0;
+
+    if (value === "." || value === ",") {
+      setCollateralAmount({ value: "0.", valid: false });
+    } else if (
+      getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
+      Number(value) <= 1e6 &&
+      Number(value) >= 0
+    ) {
+      setCollateralAmount({ value, valid });
+      setTokenAmount({ value: "", valid: false, calculating: true });
+    }
+  };
+
+  const getAmountOut = async (amount, tokenIn, tokenOut) => {
+    const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, provider);
+    const res = await contract.getAmountOut(parseUnits(String(amount)), tokenIn, tokenOut);
+
+    return (Math.floor(Number(formatUnits(res[0], 18)) * 1e9) / 1e9).toFixed(9).replace(/0*$/, "")
+  };
+
+  useLazyEffect(() => {
+    if (!tokenAmount.calculating && collateralAmount.calculating) {
+      if (Number(tokenAmount.value)) {
+        getAmountOut(tokenAmount.value, appConfig.CONTRACT, collateralTokenAddress).then((value) => setCollateralAmount({ value, valid: true, calculating: false }));
+      } else {
+        setCollateralAmount({ value: 0, valid: false, calculating: false });
+      }
+    }
+  }, [tokenAmount, collateralAmount], 800);
+
+  useLazyEffect(() => {
+    if (!collateralAmount.calculating && tokenAmount.calculating) {
+      if (Number(collateralAmount.value)) {
+        getAmountOut(collateralAmount.value, collateralTokenAddress, appConfig.CONTRACT).then((value) => setTokenAmount({ value, valid: true, calculating: false }));
+      } else {
+        setTokenAmount({ value: 0, valid: false, calculating: false });
+      }
+    }
+  }, [collateralAmount, tokenAmount], 800);
+
+  const changeDirection = async () => {
+    if (!tokenAmount.calculating && !collateralAmount.calculating) {
+      setType(type === "buy" ? "sell" : "buy");
+
+      if (type === "buy") { // will be sell
+        setCollateralAmount({ value: "", calculating: true, valid: false });
+      } else { // will be buy
+        setTokenAmount({ value: "", calculating: true, valid: false });
+      }
+    }
+  }
+
+  const handleKeyDown = (ev) => {
+    if (ev.code === "Enter" || ev.code === "NumpadEnter") {
+      btnRef.current.click();
+    }
+  };
+
+  const swap = async () => {
+    try {
+      setLoading(true);
+      const signer = await contractAPI.getSigner();
+
+      await contractAPI.approve(type === "buy" ? parseUnits(String(collateralAmount.value), 18) : parseUnits(String(tokenAmount.value), 18), type === "buy" ? collateralTokenAddress : appConfig.CONTRACT, appConfig.EQUILIBRE_ROUTER_CONTRACT);
+      const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, signer);
+
+      const res = await contract.swapExactTokensForTokensSimple(type === "buy" ? parseUnits(Number(collateralAmount.value).toFixed(18), 18) : parseUnits(Number(tokenAmount.value).toFixed(18), 18), type === "buy" ? parseUnits(Number(tokenAmount.value * 0.97).toFixed(18), 18) : parseUnits(Number(collateralAmount.value * 0.97).toFixed(18), 18), type === 'buy' ? collateralTokenAddress : appConfig.CONTRACT, type === 'buy' ? appConfig.CONTRACT : collateralTokenAddress, false, walletAddress, BigInt(String(Date.now() + 1000 * 60 * 60)));
+
+      dispatch(
+        sendNotification({
+          title: "Transaction successful",
+          type: "success",
+        })
+      );
+
+      setLoading(false);
+
+      await res.wait();
+
+      if (type === "buy") {
+        setTokenAmount(t => ({ ...t, calculating: true }))
+      } else {
+        setCollateralAmount((c => ({ ...c, calculating: true })))
+      }
+    } catch (error) {
+      console.error('error', error)
+      const notificationPayload = recognizeMetamaskError(error);
+      dispatch(sendNotification(notificationPayload));
+      setLoading(false);
+    }
+  };
+
+  const controllers = [<Input
+    label={type === "sell" ? "You send" : "You get"}
+    placeholder=""
+    value={tokenAmount.value}
+    onKeyDown={handleKeyDown}
+    loading={tokenAmount.calculating}
+    disabled={tokenAmount.calculating}
+    key="1"
+    suffix={symbol}
+    onChange={tokenHandleChange}
+  />,
+
+  <div className="flex justify-center p-3 select-none">
+    <ArrowsUpDownIcon
+      className={cn("w-8 h-8", tokenAmount.calculating || collateralAmount.calculating ? "cursor-not-allowed opacity-20" : "cursor-pointer")}
+      onClick={changeDirection}
+    />
+  </div>,
+
+  <Input
+    label={type === "sell" ? "You get" : "You send"}
+    placeholder=""
+    onKeyDown={handleKeyDown}
+    key="2"
+    value={collateralAmount.value}
+    loading={collateralAmount.calculating}
+    disabled={collateralAmount.calculating}
+    suffix={collateralSymbol}
+    onChange={collateralHandleChange}
+  />];
+
+  const swapDisabled = !tokenAmount.valid || !collateralAmount.valid || Number(tokenAmount.value) <= 0 || Number(collateralAmount.value) <= 0 || tokenAmount.calculating || collateralAmount.calculating || !walletAddress;
+
+  return <div>
+    <div className="mb-3">
+      {type === "buy" ? controllers.reverse() : controllers}
+    </div>
+
+    <div className="block mb-1 text-sm font-medium text-white/60">
+      Slippage
+      <span className="ml-1 text-gray-300">
+        3%
+      </span>
+    </div>
+
+    <div className="block mb-5 text-sm font-medium text-white/60">
+      {type === "buy" ? symbol : collateralSymbol} price
+      <span className="ml-1 text-gray-300">
+        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? tokenAmount.value / collateralAmount.value : collateralAmount.value / tokenAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
+        {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{type === "buy" ? collateralSymbol : symbol} </small> : null}
+      </span>
+    </div>
+
+    <MetaMaskButton
+      type="light"
+      onClick={swap}
+      loading={loading}
+      ref={btnRef}
+      block
+      disabled={swapDisabled}
+    >
+      Swap
+    </MetaMaskButton>
+  </div>
+}

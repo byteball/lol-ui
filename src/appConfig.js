@@ -3,28 +3,29 @@ export default {
 	CONTRACT: import.meta.env.VITE_CONTRACT,
 	ICON_CDN_URL: import.meta.env.VITE_ICON_CDN_URL,
 	MAX_VIEW_DECIMALS: 6,
+	EQUILIBRE_ROUTER_CONTRACT: import.meta.env.VITE_EQUILIBRE_ROUTER_CONTRACT,
 	RPC_META:
 		import.meta.env.VITE_TESTNET === "1"
 			? {
-					chainId: "0x13881",
-					chainName: "Polygon TEST Network",
-					nativeCurrency: {
-						name: "MATIC",
-						symbol: "MATIC",
-						decimals: 18,
-					},
-					rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
-					blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-			  }
+				chainId: "0x13881",
+				chainName: "Polygon TEST Network",
+				nativeCurrency: {
+					name: "MATIC",
+					symbol: "MATIC",
+					decimals: 18,
+				},
+				rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
+				blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+			}
 			: {
-					chainId: "0x8ae",
-					chainName: "Kava EVM Network",
-					nativeCurrency: {
-						name: "KAVA",
-						symbol: "KAVA",
-						decimals: 18,
-					},
-					rpcUrls: ["https://evm.kava.io"],
-					blockExplorerUrls: ["https://explorer.kava.io/"],
-			  },
+				chainId: "0x8ae",
+				chainName: "Kava EVM Network",
+				nativeCurrency: {
+					name: "KAVA",
+					symbol: "KAVA",
+					decimals: 18,
+				},
+				rpcUrls: ["https://evm.kava.io"],
+				blockExplorerUrls: ["https://explorer.kava.io/"],
+			},
 };
