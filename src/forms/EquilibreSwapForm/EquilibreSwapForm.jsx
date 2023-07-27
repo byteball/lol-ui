@@ -24,8 +24,8 @@ import appConfig from "@/appConfig";
 export const EquilibreSwapForm = () => {
   const [type, setType] = useState("buy");
   const [loading, setLoading] = useState(false);
-  const [tokenAmount, setTokenAmount] = useState({ value: "", valid: false, calculating: true });
-  const [collateralAmount, setCollateralAmount] = useState({ value: "1", valid: true, calculating: false });
+  const [tokenAmount, setTokenAmount] = useState({ value: "", valid: false, calculating: true, updateFor: null });
+  const [collateralAmount, setCollateralAmount] = useState({ value: "1", valid: true, calculating: false, updateFor: null });
 
   const btnRef = useRef();
 
@@ -37,34 +37,35 @@ export const EquilibreSwapForm = () => {
 
   const dispatch = useDispatch();
 
-  // update rate
   useEffect(() => {
-    const intervalID = setInterval(() => {
+    const intervalID = setInterval(async () => {
       if (type === "buy") {
-        setTokenAmount((t) => ({ ...t, calculating: true }));
+        setTokenAmount(o => ({ ...o, updateFor: o.value }));
+        await getAmountOut(collateralAmount.value, collateralTokenAddress, appConfig.CONTRACT).then((value) => setTokenAmount(old => ({ ...old, value: old.updateFor === old.value ? value : old.value })));
       } else {
-        setCollateralAmount((c) => ({ ...c, calculating: true }));
+        setCollateralAmount(o => ({ ...o, updateFor: o.value }));
+        await getAmountOut(tokenAmount.value, appConfig.CONTRACT, collateralTokenAddress).then((value) => setCollateralAmount(old => ({ ...old, value: old.updateFor === old.value ? value : old.value })));
       }
-    }, 1000 * 20);
+    }, 1000 * 60);
 
     return () => {
-      clearInterval(intervalID)
+      clearInterval(intervalID);
     }
-  }, [type])
+  }, [type, tokenAmount, collateralAmount]);
 
   const tokenHandleChange = (ev, v) => {
     const value = v || ev.target.value.trim();
     const valid = !isNaN(Number(value)) && Number(value) > 0;
 
     if (value === "." || value === ",") {
-      setTokenAmount({ value: "0.", valid: false });
+      setTokenAmount((o) => ({ ...o, value: "0.", valid: false }));
     } else if (
       getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
       Number(value) <= 1e6 &&
       Number(value) >= 0
     ) {
-      setTokenAmount({ value, valid });
-      setCollateralAmount({ value: "", valid: false, calculating: true });
+      setTokenAmount((o) => ({ ...o, value, valid }));
+      setCollateralAmount(o => ({ ...o, value: "", valid: false, calculating: true }));
     }
   };
 
@@ -73,14 +74,14 @@ export const EquilibreSwapForm = () => {
     const valid = !isNaN(Number(value)) && Number(value) > 0;
 
     if (value === "." || value === ",") {
-      setCollateralAmount({ value: "0.", valid: false });
+      setCollateralAmount(o => ({ ...o, value: "0.", valid: false }));
     } else if (
       getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
       Number(value) <= 1e6 &&
       Number(value) >= 0
     ) {
-      setCollateralAmount({ value, valid });
-      setTokenAmount({ value: "", valid: false, calculating: true });
+      setCollateralAmount((o) => ({ ...o, value, valid }));
+      setTokenAmount(o => ({ ...o, value: "", valid: false, calculating: true }));
     }
   };
 
@@ -156,7 +157,6 @@ export const EquilibreSwapForm = () => {
         setCollateralAmount((c => ({ ...c, calculating: true })))
       }
     } catch (error) {
-      console.error('error', error)
       const notificationPayload = recognizeMetamaskError(error);
       dispatch(sendNotification(notificationPayload));
       setLoading(false);
@@ -211,7 +211,7 @@ export const EquilibreSwapForm = () => {
     <div className="block mb-5 text-sm font-medium text-white/60">
       {type === "buy" ? symbol : collateralSymbol} price
       <span className="ml-1 text-gray-300">
-        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? tokenAmount.value / collateralAmount.value : collateralAmount.value / tokenAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
+        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? collateralAmount.value / tokenAmount.value : tokenAmount.value / collateralAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
         {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{type === "buy" ? collateralSymbol : symbol} </small> : null}
       </span>
     </div>
@@ -224,7 +224,11 @@ export const EquilibreSwapForm = () => {
       block
       disabled={swapDisabled}
     >
-      Swap
+      {type === "buy" ? "Buy" : "Sell"}
     </MetaMaskButton>
+
+    <div className="px-2 pt-2 text-xs text-center text-white/60">
+      Powered by <a href="https://equilibrefinance.com/" target="_blank">Equilibre</a>
+    </div>
   </div>
 }

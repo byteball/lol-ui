@@ -35,13 +35,13 @@ export const MainPage = () => {
 							<Tabs value={tab} onChange={(v) => setTab(v)}>
 								<Tabs.Item value="borrow">Borrow</Tabs.Item>
 								<Tabs.Item value="my">My loans</Tabs.Item>
-								<Tabs.Item value="equilibre">Swap via Equilibre</Tabs.Item>
+								<Tabs.Item value="buysell">Buy/Sell</Tabs.Item>
 							</Tabs>
 
 							<div className="mt-7">
 								{tab === "borrow" && <OpenLoanForm />}
 								{tab === "my" && <LoanList />}
-								{tab === "equilibre" && <EquilibreSwapForm />}
+								{tab === "buysell" && <EquilibreSwapForm />}
 							</div>
 						</>
 					) : (

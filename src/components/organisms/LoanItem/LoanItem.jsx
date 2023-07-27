@@ -71,7 +71,7 @@ export const LoanItem = ({
 					</div>
 					<div className="font-semibold text-white text-md">
 						{toLocalString(
-							(+formatEther(current_loan_amount || loan_amount)).toFixed(7)
+							(+formatEther(current_loan_amount || loan_amount)).toPrecision(7)
 						)}{" "}
 						<small>LINE</small>
 					</div>
@@ -80,7 +80,7 @@ export const LoanItem = ({
 				<div className="basis-full xs:basis-2/4">
 					<div className="text-sm font-light text-white/60">Collateral</div>
 					<div className="font-semibold text-white text-md">
-						{toLocalString(formatEther(collateral_amount))} <small>GBYTE</small>
+						{toLocalString((+formatEther(collateral_amount)).toPrecision(7))} <small>GBYTE</small>
 					</div>
 				</div>
 			</div>
