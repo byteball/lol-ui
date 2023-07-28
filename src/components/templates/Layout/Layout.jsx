@@ -16,8 +16,7 @@ export const Layout = ({ children }) => {
 				</div>
 				<Notifications />
 			</div>
-			<div className="text-center text-white/60 mt-[-30px] pb-2 font-light">
-
+			<div className="text-center text-white/60 mt-[-40px] pb-2 font-light">
 				<div className="flex flex-wrap justify-center mb-5 space-x-5">
 					<a className="p-2 hover:opacity-70" href="https://x.com/ObyteOrg" target="_blank" rel="noreferrer"><img src="/social_media/x.svg" alt="Obyte X (Twitter)" /></a>
 					<a className="p-2 hover:opacity-70" href="https://t.me/obyteorg" target="_blank" rel="noreferrer"><img src="/social_media/telegram.svg" alt="Obyte telegram" /></a>
