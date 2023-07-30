@@ -69,7 +69,7 @@ export const MainPage = () => {
 							</div>
 							<div className="leading-tight">
 								<span className="font-semibold text-gray-300 text-md">
-									Why is the price protected?
+									What makes the price protected?
 								</span>
 							</div>
 						</div>

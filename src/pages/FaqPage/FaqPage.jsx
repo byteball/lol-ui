@@ -269,6 +269,17 @@ const faqs = [
 		),
 	},
 	{
+		question:
+			"How can I be sure I can always get my collateral back?",
+		answer: (
+			<div>
+				<p>
+					Your GBYTE collateral is stored on a <a href="https://explorer.kava.io/address/0x31f8d38df6514b6cc3C360ACE3a2EFA7496214f6" target="_blank" rel="noopener" className="text-primary">smart contract</a> and nobody, even Obyte team, have access to your collateral. Only you can withdraw it by repaying your loan. The smart contract is not upgradeable, so no surprises. The team can only update the origination fee, the interest rate, the oracle used for determining the LINE price, the exchange fee, and the rewards for the incentivized pools.
+				</p>
+			</div>
+		),
+	},
+	{
 		question: "What are these NFTs I can trade here?",
 		answer: (
 			<div>

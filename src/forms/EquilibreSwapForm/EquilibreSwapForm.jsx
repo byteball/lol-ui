@@ -228,7 +228,7 @@ export const EquilibreSwapForm = () => {
     </MetaMaskButton>
 
     <div className="px-2 pt-2 text-xs text-center text-white/60">
-      Powered by <a href="https://equilibrefinance.com/" target="_blank">Equilibre</a>
+      Swaps are processed by <a href="https://equilibrefinance.com/" target="_blank" rel="noopener">équilibre DEX</a>
     </div>
   </div>
 }
