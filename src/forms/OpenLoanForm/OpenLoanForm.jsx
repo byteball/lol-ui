@@ -19,6 +19,7 @@ import {
 	recognizeMetamaskError,
 } from "@/utils";
 import { selectLinePrice } from "@/store/slices/priceSlice";
+import { selectLoans } from "@/store/slices/loansSlice";
 
 const INIT_COLLATERAL = 1;
 
@@ -41,6 +42,7 @@ export const OpenLoanForm = () => {
 	const collateralSymbol = useSelector(selectCollateralSymbol);
 	const price = useSelector(selectLinePrice);
 	const params = useSelector(selectParams);
+	const loans = useSelector(selectLoans);
 
 	const { originationFee, interestRate } = useSelector(selectParams);
 
@@ -169,6 +171,9 @@ export const OpenLoanForm = () => {
 					Send {collateral.valid ? toLocalString(collateral.value) : ""}{" "}
 					{collateralSymbol}
 				</MetaMaskButton>
+				{!loans.length && <div className="px-2 pt-2 text-xs text-center text-white/60">
+					GBYTE is Obyte's native token, you can get it <a href="https://getmein.ooo/" target="_blank" className="text-primary" rel="noopener">here</a>
+				</div>}
 			</div>
 		</>
 	);
