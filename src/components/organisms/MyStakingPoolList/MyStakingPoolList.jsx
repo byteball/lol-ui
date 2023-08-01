@@ -26,7 +26,7 @@ export const MyStakingPoolList = () => {
 	if (!userPools.length) {
 		return (
 			<div className="text-center text-gray-600">
-				You haven't staked tokens yet
+				You haven't staked any tokens yet
 			</div>
 		);
 	}
