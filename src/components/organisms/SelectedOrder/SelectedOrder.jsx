@@ -81,7 +81,7 @@ export const SelectedOrder = ({
 		!selectedOrder ||
 		(!selectedOrder.loan_num && !selectedOrder.buy_order_id)
 	)
-		return <div className="text-primary/60">No selected order</div>;
+		return <div className="text-primary/60">No order selected</div>;
 
 	const { type } = selectedOrder;
 

@@ -67,7 +67,7 @@ export const MyOrderList = () => {
 
 	if (!myOrders.length)
 		return (
-			<div className="text-primary/60">You have not created any order</div>
+			<div className="text-primary/60">You have not created any orders yet</div>
 		);
 
 	return (
