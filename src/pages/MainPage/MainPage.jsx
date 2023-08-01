@@ -10,6 +10,7 @@ import { selectWasFirstInited } from "@/store/slices/settingsSlice";
 import { selectParams } from "@/store/slices/paramsSlice";
 import { selectLinePrice } from "@/store/slices/priceSlice";
 import { EquilibreSwapForm } from "@/forms/EquilibreSwapForm/EquilibreSwapForm";
+import appConfig from "@/appConfig";
 
 export const MainPage = () => {
 	const [tab, setTab] = useState("borrow");
@@ -35,7 +36,7 @@ export const MainPage = () => {
 							<Tabs value={tab} onChange={(v) => setTab(v)}>
 								<Tabs.Item value="borrow">Borrow</Tabs.Item>
 								<Tabs.Item value="my">My loans</Tabs.Item>
-								<Tabs.Item value="buysell">Buy/Sell</Tabs.Item>
+								{!appConfig.TESTNET ? <Tabs.Item value="buysell">Buy/Sell</Tabs.Item> : null}
 							</Tabs>
 
 							<div className="mt-7">
