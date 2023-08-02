@@ -1216,6 +1216,11 @@
 					},
 					{
 						"internalType": "uint256",
+						"name": "current_hedge_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
 						"name": "loan_num",
 						"type": "uint256"
 					},
