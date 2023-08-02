@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { formatEther, parseUnits } from "ethers";
+import ReactGA from "react-ga4";
 
 import { MetaMaskButton } from "@/components/molecules";
 import { Checkbox, Input } from "@/components/atoms";
@@ -72,6 +73,13 @@ export const UnstakeForm = ({
 				claimReward
 			);
 
+			ReactGA.event({
+				category: "staking",
+				action: "unstake",
+				value: Number(amount.value),
+				label: symbol
+			});
+
 			dispatch(
 				sendNotification({
 					title: "Transaction successful",
@@ -116,8 +124,8 @@ export const UnstakeForm = ({
 					{unstakeAll
 						? toBalanceString(stakingBalance, decimals)
 						: amount.valid && Number(amount.value)
-						? toBalanceString(parseUnits(amount.value, decimals).toString())
-						: 0}{" "}
+							? toBalanceString(parseUnits(amount.value, decimals).toString())
+							: 0}{" "}
 					<small>{symbol}</small>
 				</b>
 				{claimReward && (

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { formatUnits, parseUnits } from "ethers";
 import { useDispatch, useSelector } from "react-redux";
+import ReactGA from "react-ga4";
 
 import { Input } from "@/components/atoms";
 import { MetaMaskButton } from "@/components/molecules";
@@ -12,7 +13,7 @@ import {
 } from "@/store/slices/settingsSlice";
 
 import contractAPI from "@/services/contractAPI";
-import { getCountOfDecimals } from "@/utils";
+import { getCountOfDecimals, recognizeMetamaskError } from "@/utils";
 
 export const StakingForm = ({ symbol, decimals, address, onClose }) => {
 	const [amount, setAmount] = useState({ value: "", valid: true });
@@ -67,6 +68,13 @@ export const StakingForm = ({ symbol, decimals, address, onClose }) => {
 				parseUnits(amount.value, BigInt(String(decimals)))
 			);
 
+			ReactGA.event({
+				category: "staking",
+				action: "stake",
+				value: Number(amount.value),
+				label: symbol
+			});
+			
 			dispatch(
 				sendNotification({
 					title: "Transaction successful",
