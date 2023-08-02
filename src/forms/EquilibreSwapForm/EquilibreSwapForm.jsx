@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { isNaN } from "lodash";
 import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 import cn from "classnames";
+import ReactGA from "react-ga4";
 
-import { Input } from "@/components/atoms"
+import { Input } from "@/components/atoms";
 import { MetaMaskButton } from "@/components/molecules";
 
 import { selectCollateralSymbol, selectCollateralTokenAddress, selectDecimals, selectSymbol, selectWalletAddress } from "@/store/slices/settingsSlice"
@@ -149,6 +150,12 @@ export const EquilibreSwapForm = () => {
 
       setLoading(false);
 
+      ReactGA.event({
+        category: "swap",
+        action: type,
+        value: type === "buy" ? +collateralAmount.value : +tokenAmount.value
+      });
+
       await res.wait();
 
       if (type === "buy") {
@@ -202,7 +209,7 @@ export const EquilibreSwapForm = () => {
     </div>
 
     <div className="block mb-1 text-sm font-medium text-white/60">
-      Slippage
+      Slippage tolerance
       <span className="ml-1 text-gray-300">
         3%
       </span>
