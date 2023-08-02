@@ -216,7 +216,7 @@ export const SelectedOrder = ({
 			)}
 
 			<div className="mb-1 text-sm font-medium text-white/60">
-				Hedge price{" "}
+				Hedge price per {tokenSymbol}{" "}
 				<QuestionTooltip
 					description={
 						isSellOrder
