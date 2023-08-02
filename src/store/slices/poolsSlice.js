@@ -14,7 +14,6 @@ const persistConfig = {
 	version: 1,
 	storage,
 	whitelist: ["updatedAt", "allPools", "loading"],
-	// whitelist: []
 };
 
 export const poolsSlice = createSlice({

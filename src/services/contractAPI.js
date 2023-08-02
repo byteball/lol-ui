@@ -2,7 +2,7 @@ import { ethers, formatUnits } from "ethers";
 
 import LineAbi from "@/abi/Line.json";
 import LoanNFTAbi from "@/abi/LoanNFT.json";
-import UniSwapABI from "@/abi/UniSwap.json";
+import EquilibrePairAbi from "@/abi/EquilibrePair.json";
 
 import appConfig from "@/appConfig";
 import { changeNetwork, getTokenPrice } from "@/utils";
@@ -19,7 +19,7 @@ import {
 const MAX_UINT256 = 2n ** 256n - 1n;
 
 class contractsAPI {
-	constructor() {}
+	constructor() { }
 
 	getSigner() {
 		if (window.ethereum) {
@@ -257,6 +257,7 @@ class contractsAPI {
 			LineAbi,
 			provider
 		);
+
 		const totalDebt = await lineContract.total_debt();
 
 		const totalRewardPerYearE18 =
@@ -278,6 +279,9 @@ class contractsAPI {
 		const tokenPriceE18 = BigInt(
 			Math.floor(Number(tokenPriceInUSD).toFixed(18) * 1e18).toString()
 		);
+
+		if (tokenPriceE18 === 0n) return 0;
+
 		return +(
 			poolRewardPerYearInUSDe36 /
 			(BigInt(totalStakedInPoolE18) * tokenPriceE18)
@@ -285,6 +289,8 @@ class contractsAPI {
 	}
 
 	async getAllPools({ collateralTokenPrice }) {
+		const state = store.getState();
+
 		const lineContract = new ethers.Contract(
 			appConfig.CONTRACT,
 			LineAbi,
@@ -320,7 +326,7 @@ class contractsAPI {
 			) => {
 				const tokenContract = new ethers.Contract(
 					address,
-					UniSwapABI,
+					EquilibrePairAbi,
 					provider
 				);
 
@@ -335,7 +341,7 @@ class contractsAPI {
 				let isPool = false;
 
 				try {
-					isPool = await tokenContract.factory().then(() => true);
+					isPool = await tokenContract.token1().then(() => true);
 				} catch (err) {
 					console.log(err);
 				}
@@ -362,17 +368,17 @@ class contractsAPI {
 						contract0.symbol(),
 						contract1.symbol(),
 					]);
-					const p0 = +(await getTokenPrice(token0)).toFixed(9) * 1e9;
+					const p0 = +(await getTokenPrice(token0, state.params.oracle)).toFixed(9) * 1e9;
 
 					const lpBigIntPriceInUSD =
 						(2n * getReserves[0] * BigInt(String(p0))) / totalSupply;
 
 					pools[index].tokenPriceInUSD = +formatUnits(lpBigIntPriceInUSD, 9);
 
-					pools[index].symbol = `${symbol0}-${symbol1} (${tokenSymbol})`;
+					pools[index].symbol = tokenSymbol ? tokenSymbol : `${symbol0}-${symbol1}`;
 				} else {
 					pools[index].symbol = tokenSymbol;
-					pools[index].tokenPriceInUSD = await getTokenPrice(address);
+					pools[index].tokenPriceInUSD = await getTokenPrice(address, state.params.oracle);
 				}
 
 				if (totalStakedInPoolE18 !== "0") {

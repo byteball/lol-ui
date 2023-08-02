@@ -1,10 +1,12 @@
-import contractAPI from "@/services/contractAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+import contractAPI from "@/services/contractAPI";
+
 import { startPoolLoading } from "../slices/poolsSlice";
+import { updateCollateralTokenPrice } from "../slices/settingsSlice";
+
 import { loadUserBalance } from "./loadUserBalance";
 import { getTokenPrice } from "@/utils";
-import appConfig from "@/appConfig";
-import { updateCollateralTokenPrice } from "../slices/settingsSlice";
 
 export const loadStakingPools = createAsyncThunk(
 	"loadStakingPools",
@@ -13,8 +15,7 @@ export const loadStakingPools = createAsyncThunk(
 
 		dispatch(startPoolLoading());
 
-		// TODO: вернуть в bootstrap
-		const collateralTokenPrice = await getTokenPrice(appConfig.CONTRACT);
+		const collateralTokenPrice = await getTokenPrice(state.settings.collateralTokenAddress);
 		dispatch(updateCollateralTokenPrice(collateralTokenPrice));
 
 		const pools = await contractAPI.getAllPools({ collateralTokenPrice });
