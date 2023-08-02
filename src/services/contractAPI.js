@@ -586,6 +586,8 @@ class contractsAPI {
 			signer
 		);
 
+		await this.approve(BigInt(String(amount)), state.settings.collateralTokenAddress, state.settings.loanNFTAddress);
+
 		await nftContract.createBuyOrder(
 			BigInt(String(amount)),
 			BigInt(String(strike_price)),
