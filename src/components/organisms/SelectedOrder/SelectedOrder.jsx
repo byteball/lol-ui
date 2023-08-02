@@ -1,11 +1,8 @@
-import {
-	calcStrikePrice,
-	recognizeMetamaskError,
-	toLocalString,
-} from "@/utils";
+
 import { formatUnits, parseUnits } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ReactGA from "react-ga4";
 
 import { MetaMaskButton, QuestionTooltip } from "@/components/molecules";
 import contractAPI from "@/services/contractAPI";
@@ -24,6 +21,12 @@ import {
 } from "@/store/slices/settingsSlice";
 import { SelectLoanToSell } from "..";
 import { selectLoans } from "@/store/slices/loansSlice";
+
+import {
+	calcStrikePrice,
+	recognizeMetamaskError,
+	toLocalString,
+} from "@/utils";
 
 const big1e18 = 1000000000000000000n;
 
@@ -117,6 +120,12 @@ export const SelectedOrder = ({
 					type: "success",
 				})
 			);
+
+			ReactGA.event({
+				category: "market",
+				action: `${type === BUY_ORDER ? 'sell_loan' : 'buy_loan'}`,
+				value: type === BUY_ORDER ? selectedOrder.buy_order_id : selectedOrder.loan_num,
+			});
 
 			setEstimatedPoint({ strike_price: 0, collateral_price: 0 });
 			setSelectedOrder({});

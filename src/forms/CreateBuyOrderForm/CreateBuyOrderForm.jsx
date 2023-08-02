@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ReactGA from "react-ga4";
 
 import { Input } from "@/components/atoms";
 import { MetaMaskButton } from "@/components/molecules";
@@ -100,6 +101,13 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 					type: "success",
 				})
 			);
+
+			ReactGA.event({
+				category: "market",
+				action: "create_order",
+				value: Number(amount.value),
+				label: 'buy'
+			});
 		} catch (error) {
 			const notificationPayload = recognizeMetamaskError(error);
 			dispatch(sendNotification(notificationPayload));

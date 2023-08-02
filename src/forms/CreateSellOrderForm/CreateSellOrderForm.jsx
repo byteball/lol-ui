@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatUnits, parseUnits } from "ethers";
 import cn from "classnames";
+import ReactGA from "react-ga4";
 
 import { MetaMaskButton, QuestionTooltip } from "@/components/molecules";
 
@@ -97,6 +98,13 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 					type: "success",
 				})
 			);
+			
+			ReactGA.event({
+				category: "market",
+				action: "create_order",
+				value: Number(price.value),
+				label: 'sell'
+			});
 
 			setEstimatedPoint({ strike_price: 0, collateral_price: 0 });
 			setSelectedLoanToSell(null);
