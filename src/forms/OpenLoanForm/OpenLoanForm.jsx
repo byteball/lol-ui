@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ethers, parseUnits } from "ethers";
+import ReactGA from "react-ga4";
 
 import { Input } from "@/components/atoms";
 import { MetaMaskButton, QuestionTooltip } from "@/components/molecules";
@@ -95,6 +96,13 @@ export const OpenLoanForm = () => {
 					type: "success",
 				})
 			);
+
+			ReactGA.event({
+				category: "loan",
+				action: "open_loan",
+				value: collateral.value,
+				transport: "xhr"
+			});
 		} catch (error) {
 			const notificationPayload = recognizeMetamaskError(error);
 			dispatch(sendNotification(notificationPayload));

@@ -6,6 +6,7 @@ import Tooltip from "rc-tooltip";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cn from "classnames";
+import ReactGA from "react-ga4";
 
 import {
 	InfoTooltip,
@@ -45,6 +46,13 @@ export const LoanItem = ({
 					type: "success",
 				})
 			);
+
+			ReactGA.event({
+				category: "loan",
+				action: "repay",
+				value: +(+(formatEther(current_loan_amount || loan_amount))).toPrecision(7),
+			});
+
 		} catch (error) {
 			const notificationPayload = recognizeMetamaskError(error);
 			dispatch(sendNotification(notificationPayload));

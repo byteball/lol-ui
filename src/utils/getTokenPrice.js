@@ -7,6 +7,7 @@ import appConfig from "@/appConfig";
 export const getTokenPrice = async (tokenAddress, lineOracle) => {
 
 	if (tokenAddress === appConfig.CONTRACT) return await getLinePrice(lineOracle);
+	if(appConfig.TESTNET) return 0;
 	
 	const coingetckoPrice = await axios.get(`https://api.coingecko.com/api/v3/coins/kava/contract/${tokenAddress.toLowerCase()}`)
 		.then(data => data?.data?.market_data?.current_price?.usd || null).catch(() => null);
