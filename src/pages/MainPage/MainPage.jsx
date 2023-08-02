@@ -11,6 +11,7 @@ import { selectWasFirstInited } from "@/store/slices/settingsSlice";
 import { selectParams } from "@/store/slices/paramsSlice";
 import { selectLinePrice } from "@/store/slices/priceSlice";
 import { EquilibreSwapForm } from "@/forms/EquilibreSwapForm/EquilibreSwapForm";
+
 import appConfig from "@/appConfig";
 
 export const MainPage = () => {
@@ -22,7 +23,7 @@ export const MainPage = () => {
 	return (
 		<div>
 			<Helmet>
-				<title>LINE — a price-protected token</title>
+				<title>{appConfig.titles.default}</title>
 			</Helmet>
 			<div className="text-3xl font-black tracking-tight text-center text-white md:text-4xl">
 				<div className="text-6xl md:text-8xl">

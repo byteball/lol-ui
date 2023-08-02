@@ -13,6 +13,7 @@ import { selectWalletAddress } from "@/store/slices/settingsSlice";
 
 import { historyInstance } from "@/historyInstance";
 
+import appConfig from "@/appConfig";
 
 export const StakingPage = () => {
 	const poolsLoading = useSelector(selectPoolsLoading);
@@ -46,7 +47,7 @@ export const StakingPage = () => {
 			description="Fees charged from borrowers are used to incentivize liquidity in some pools where LINE is traded. Provide liquidity in such pools, stake your LP tokens here, and get rewards."
 		>
 			<Helmet>
-				<title>LINE token — Staking</title>
+				<title>{appConfig.titles.staking}</title>
 			</Helmet>
 			{poolsLoading ? (
 				<Spin />

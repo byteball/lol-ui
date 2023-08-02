@@ -2,6 +2,8 @@ import { Helmet } from "react-helmet-async";
 
 import { PageLayout } from "@/components/templates";
 
+import appConfig from "@/appConfig";
+
 export const AboutPage = () => (
 	<PageLayout
 		title="About us"
@@ -10,7 +12,7 @@ export const AboutPage = () => (
 		</span>}
 	>
 		<Helmet>
-			<title>LINE token — About us</title>
+			<title>{appConfig.titles.about}</title>
 		</Helmet>
 
 		<p className="mb-5 text-white/60">

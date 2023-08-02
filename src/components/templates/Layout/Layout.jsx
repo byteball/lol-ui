@@ -1,7 +1,37 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import ReactGA from "react-ga4";
+
 import { Header } from "@/components/organisms";
 import { Notifications } from "@/components/atoms";
 
+import { historyInstance } from "@/historyInstance";
+import appConfig from "@/appConfig";
+import { getTitleByPathname } from "@/utils";
+
 export const Layout = ({ children }) => {
+	const location = useLocation();
+
+	useEffect(() => {
+		let unlisten;
+
+		unlisten = historyInstance.listen(({ location, action, ...t }) => {
+			if (action === "PUSH" || action === "POP") {
+				if (appConfig.GA_MEASUREMENT_ID) {
+					ReactGA.send({ hitType: "pageview", page: location.pathname, title: getTitleByPathname(location.pathname) });
+				}
+			}
+		});
+
+		if (appConfig.GA_MEASUREMENT_ID) {
+			ReactGA.send({ hitType: "pageview", page: location.pathname, title: getTitleByPathname(location.pathname) });
+		}
+
+		return () => {
+			unlisten && unlisten();
+		};
+	}, []);
+
 	return (
 		<div>
 			<div className="min-h-screen antialiased pb-20 bg-[url('/grid.svg')]">

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { PageLayout } from "@/components/templates";
+import appConfig from "@/appConfig";
 
 const faqs = [
 	{
@@ -340,7 +341,7 @@ export const FaqPage = () => (
 		}
 	>
 		<Helmet>
-			<title>LINE token — F.A.Q.</title>
+			<title>{appConfig.titles.faq}</title>
 		</Helmet>
 
 		<dl className="space-y-6 divide-y divide-primary/10">

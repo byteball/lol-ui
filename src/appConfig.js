@@ -4,6 +4,7 @@ export default {
 	ICON_CDN_URL: import.meta.env.VITE_ICON_CDN_URL,
 	MAX_VIEW_DECIMALS: 6,
 	EQUILIBRE_ROUTER_CONTRACT: import.meta.env.VITE_EQUILIBRE_ROUTER_CONTRACT,
+	GA_MEASUREMENT_ID: import.meta.env.VITE_GA_MEASUREMENT_ID,
 	RPC_META:
 		import.meta.env.VITE_TESTNET === "1"
 			? {
@@ -28,4 +29,11 @@ export default {
 				rpcUrls: ["https://evm.kava.io"],
 				blockExplorerUrls: ["https://explorer.kava.io/"],
 			},
+	titles: {
+		default: "LINE — a price-protected token",
+		staking: "LINE token — Staking",
+		market: "LINE token — Market",
+		about: "LINE token — About us",
+		faq: "LINE token — F.A.Q."
+	}
 };
