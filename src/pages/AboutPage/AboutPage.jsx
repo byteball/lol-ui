@@ -1,3 +1,5 @@
+import { Helmet } from "react-helmet-async";
+
 import { PageLayout } from "@/components/templates";
 
 export const AboutPage = () => (
@@ -7,6 +9,10 @@ export const AboutPage = () => (
 			LINE token was created by developers of <a href="https://obyte.org" target="_blank" rel="noopener" className="text-primary">Obyte</a> — a DAG based distributed ledger. In Obyte DAG, unlike blockchains, there are no miners (block producers) and users have direct access to the ledger, without any intermediaries.This absence of big power centers makes DAG censorship-resistant, more decentralized, and eliminates MEV (miner extractable value).
 		</span>}
 	>
+		<Helmet>
+			<title>LINE token — About us</title>
+		</Helmet>
+
 		<p className="mb-5 text-white/60">
 			We’ve created other unique applications, most of which are available only
 			on Obyte:

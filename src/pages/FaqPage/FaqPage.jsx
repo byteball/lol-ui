@@ -1,8 +1,9 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import { PageLayout } from "@/components/templates";
-import { Link } from "react-router-dom";
 
 const faqs = [
 	{
@@ -338,6 +339,10 @@ export const FaqPage = () => (
 			</span>
 		}
 	>
+		<Helmet>
+			<title>LINE token — F.A.Q.</title>
+		</Helmet>
+
 		<dl className="space-y-6 divide-y divide-primary/10">
 			{faqs.map((faq) => (
 				<Disclosure as="div" key={faq.question} className="pt-6">

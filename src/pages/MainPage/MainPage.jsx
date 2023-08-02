@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet-async";
 
 import { Tabs } from "@/components/molecules";
 import { Spin } from "@/components/atoms";
@@ -20,6 +21,9 @@ export const MainPage = () => {
 
 	return (
 		<div>
+			<Helmet>
+				<title>LINE — a price-protected token</title>
+			</Helmet>
 			<div className="text-3xl font-black tracking-tight text-center text-white md:text-4xl">
 				<div className="text-6xl md:text-8xl">
 					<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0281EB] via-[white] to-[#ff433e]">

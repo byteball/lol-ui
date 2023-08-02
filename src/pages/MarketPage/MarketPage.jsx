@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import { Spin } from "@/components/atoms";
 import { Tabs } from "@/components/molecules";
@@ -89,6 +90,9 @@ export const MarketPage = () => {
 
 	return (
 		<div className="flex flex-col flex-grow-0 flex-shrink-0 w-full p-4 mx-auto mt-8 text-white lg:flex-row md:p-6 max-w-7xl">
+			<Helmet>
+				<title>LINE token — Market</title>
+			</Helmet>
 			<div className={cn("w-full lg:w-auto lg:basis-2/3 lg:mr-5")}>
 				<div className={cn(commonStyles)}>
 					<h2 className="mb-2 text-2xl font-bold text-white/80">Order map</h2>

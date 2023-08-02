@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet-async";
 
 import { PageLayout } from "@/components/templates";
 import { StakingPoolList, MyStakingPoolList } from "@/components/organisms";
@@ -11,6 +12,7 @@ import { selectPoolsLoading } from "@/store/slices/poolsSlice";
 import { selectWalletAddress } from "@/store/slices/settingsSlice";
 
 import { historyInstance } from "@/historyInstance";
+
 
 export const StakingPage = () => {
 	const poolsLoading = useSelector(selectPoolsLoading);
@@ -43,6 +45,9 @@ export const StakingPage = () => {
 			title="Staking"
 			description="Fees charged from borrowers are used to incentivize liquidity in some pools where LINE is traded. Provide liquidity in such pools, stake your LP tokens here, and get rewards."
 		>
+			<Helmet>
+				<title>LINE token — Staking</title>
+			</Helmet>
 			{poolsLoading ? (
 				<Spin />
 			) : (
