@@ -1,4 +1,4 @@
-import { ethers, formatUnits } from "ethers";
+import { ethers, formatUnits, parseUnits } from "ethers";
 
 import LineAbi from "@/abi/Line.json";
 import LoanNFTAbi from "@/abi/LoanNFT.json";
@@ -276,9 +276,7 @@ class contractsAPI {
 				linePriceInCollateralE18) /
 			10n ** 18n;
 
-		const tokenPriceE18 = BigInt(
-			Math.floor(Number(tokenPriceInUSD).toFixed(18) * 1e18).toString()
-		);
+		const tokenPriceE18 = parseUnits(Number(tokenPriceInUSD).toFixed(18), 18);
 
 		if (tokenPriceE18 === 0n) return 0;
 
