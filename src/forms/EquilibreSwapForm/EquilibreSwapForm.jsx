@@ -219,7 +219,7 @@ export const EquilibreSwapForm = () => {
       {symbol} price
       <span className="ml-1 text-gray-300">
         {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? 1 / (collateralAmount.value / tokenAmount.value) : tokenAmount.value / collateralAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
-        {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{type === "buy" ? collateralSymbol : symbol} </small> : null}
+        {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{collateralSymbol} </small> : null}
       </span>
     </div>
 
