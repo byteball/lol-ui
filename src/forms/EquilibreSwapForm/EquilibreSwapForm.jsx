@@ -176,7 +176,7 @@ export const EquilibreSwapForm = () => {
     value={tokenAmount.value}
     onKeyDown={handleKeyDown}
     loading={tokenAmount.calculating}
-    disabled={tokenAmount.calculating}
+    disabled={tokenAmount.calculating || type === "buy"}
     key="1"
     suffix={symbol}
     onChange={tokenHandleChange}
@@ -196,7 +196,7 @@ export const EquilibreSwapForm = () => {
     key="2"
     value={collateralAmount.value}
     loading={collateralAmount.calculating}
-    disabled={collateralAmount.calculating}
+    disabled={collateralAmount.calculating || type === "sell"}
     suffix={collateralSymbol}
     onChange={collateralHandleChange}
   />];
@@ -216,9 +216,9 @@ export const EquilibreSwapForm = () => {
     </div>
 
     <div className="block mb-5 text-sm font-medium text-white/60">
-      {type === "buy" ? symbol : collateralSymbol} price
+      {symbol} price
       <span className="ml-1 text-gray-300">
-        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? collateralAmount.value / tokenAmount.value : tokenAmount.value / collateralAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
+        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(type === "buy" ? 1 / (collateralAmount.value / tokenAmount.value) : tokenAmount.value / collateralAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
         {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{type === "buy" ? collateralSymbol : symbol} </small> : null}
       </span>
     </div>
