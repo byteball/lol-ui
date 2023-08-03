@@ -17,12 +17,15 @@ export const Layout = ({ children }) => {
 
 		unlisten = historyInstance.listen(({ location, action, ...t }) => {
 			if (action === "PUSH" || action === "POP") {
+				window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
 				if (appConfig.GA_MEASUREMENT_ID) {
 					ReactGA.send({ hitType: "pageview", page: location.pathname, title: getTitleByPathname(location.pathname) });
 				}
 			}
 		});
 
+		window.scrollTo({top: 0, left: 0, behavior: 'instant'});
+		
 		if (appConfig.GA_MEASUREMENT_ID) {
 			ReactGA.send({ hitType: "pageview", page: location.pathname, title: getTitleByPathname(location.pathname) });
 		}
