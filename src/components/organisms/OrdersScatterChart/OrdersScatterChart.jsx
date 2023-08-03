@@ -38,8 +38,11 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 	const walletAddress = useSelector(selectWalletAddress);
 	const linePrice = useSelector(selectLinePrice);
 
+	const min = useMemo(() => Math.min(...(data || [{ strike_price: 0 }]).map(d => d.strike_price)), [data]);
+	const max = useMemo(() => Math.max(...(data || [{ strike_price: 0 }]).map(d => d.strike_price)), [data]);
+
 	const config = {
-		appendPadding: 28,
+		appendPadding: [30, 5, 5, 5],
 		animation: false,
 		xField: "strike_price",
 		yField: "hedge_price",
@@ -65,6 +68,8 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 			title: {
 				text: `Strike price (${collateralSymbol})`,
 			},
+			min: min - ((max - min) * 0.1),
+			max: max + ((max - min) * 0.1)
 		},
 		yAxis: {
 			title: {
@@ -77,32 +82,29 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 		tooltip: {
 			customContent: (_, data) => {
 				return `<div class="pt-2 pb-2">
-          ${
-						data[0]?.data &&
-						`<div class="mb-2 last:mb-0">
-            ${
-							data[0].data.buy_order_id ? "Amount" : "Loan amount"
-						}: ${toLocalString(
-							+Number(
-								data[0].data.buy_order_id
-									? data[0]?.data.amount
-									: data[0]?.data.current_loan_amount
-							).toFixed(9)
-						)} ${data[0].data.buy_order_id ? collateralSymbol : tokenSymbol}
+          ${data[0]?.data &&
+					`<div class="mb-2 last:mb-0">
+            ${data[0].data.buy_order_id ? "Amount" : "Loan amount"
+					}: ${toLocalString(
+						+Number(
+							data[0].data.buy_order_id
+								? data[0]?.data.amount
+								: data[0]?.data.current_loan_amount
+						).toFixed(9)
+					)} ${data[0].data.buy_order_id ? collateralSymbol : tokenSymbol}
           </div>`
 					}
 
         ${data
-					.map(
-						({ name, value }) => `
+						.map(
+							({ name, value }) => `
           <div class="mb-2 last:mb-0">
-            ${transformTooltipNames(name)}: ${
-							name !== "type" ? toLocalString(+Number(value).toFixed(9)) : value
+            ${transformTooltipNames(name)}: ${name !== "type" ? toLocalString(+Number(value).toFixed(9)) : value
 						} ${name !== "type" ? collateralSymbol : ""}
           </div>
         `
-					)
-					.join(" ")}
+						)
+						.join(" ")}
         </div>`;
 			},
 		},

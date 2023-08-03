@@ -23,7 +23,7 @@ import {
 	MY_SELL_ORDER,
 	SELL_ORDER,
 } from "@/components/organisms/OrdersScatterChart/OrdersScatterChart";
-import { selectWalletAddress } from "@/store/slices/settingsSlice";
+import { selectLoanNFTAddress, selectWalletAddress } from "@/store/slices/settingsSlice";
 import { CreateSellOrderForm } from "@/forms";
 import appConfig from "@/appConfig";
 
@@ -38,15 +38,16 @@ export const MarketPage = () => {
 	const inited = useSelector(selectMarketInited);
 	const orders = useSelector(selectMarketOrders);
 	const walletAddress = useSelector(selectWalletAddress);
+	const loanNftAddress = useSelector(selectLoanNFTAddress);
 
 	const { type } = useParams();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!inited) {
+		if (!inited && loanNftAddress) {
 			dispatch(loadMarketOrders());
 		}
-	}, [inited]);
+	}, [inited, loanNftAddress]);
 
 	useEffect(() => {
 		if (
