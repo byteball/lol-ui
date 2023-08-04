@@ -51,8 +51,8 @@ export const StakingForm = ({ symbol, decimals, address, onClose }) => {
 		if (value === "." || value === ",") {
 			setAmount({ value: "0.", valid: false });
 		} else if (
-			getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
-			Number(value) <= 1e6 &&
+			getCountOfDecimals(value) <= (decimals < 18 ? decimals : 18) &&
+			Number(value) <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setAmount({ value, valid });

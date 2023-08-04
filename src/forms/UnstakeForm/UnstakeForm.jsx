@@ -56,7 +56,7 @@ export const UnstakeForm = ({
 			setAmount({ value: "0.", valid: false });
 		} else if (
 			getCountOfDecimals(value) <= decimals &&
-			Number(value) <= 1e6 &&
+			Number(value) <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setAmount({ value, valid });

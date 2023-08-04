@@ -93,20 +93,13 @@ export const MyOrderList = () => {
 					>
 						<div className="basis-1/2 sm:basis-1/3">
 							<div className="block text-white sm:hidden">Amount</div>
-							{toLocalString(
-								(+formatUnits(
-									current_loan_amount || amount,
-									18
-								).toString()).toFixed(9)
-							)}{" "}
+							{toLocalString(formatUnits(current_loan_amount || amount, 18))}{" "}
 							<small>{buy_order_id ? "GBYTE" : "LINE"}</small>
 						</div>
 
 						<div className="basis-1/2 sm:basis-1/3">
 							<div className="block text-white sm:hidden">Strike price</div>
-							{toLocalString(
-								(+formatUnits(strike_price, 18).toString()).toFixed(9)
-							)}{" "}
+							{toLocalString(formatUnits(strike_price, 18))}{" "}
 							<small>GBYTE</small>
 						</div>
 

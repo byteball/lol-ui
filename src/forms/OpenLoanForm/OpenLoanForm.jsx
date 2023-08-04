@@ -63,7 +63,7 @@ export const OpenLoanForm = () => {
 
 		if (value === "." || value === ",") {
 			setCollateral({ value: "0.", valid: false });
-		} else if (getCountOfDecimals(value) <= 9 && value <= 1e6) {
+		} else if (getCountOfDecimals(value) <= 18 && value <= 1e6) {
 			setCollateral({ value, valid });
 
 			if (valid) {
@@ -140,7 +140,7 @@ export const OpenLoanForm = () => {
 					Loan amount{" "}
 					<QuestionTooltip description="The initial amount of your loan. It will slowly grow as interest accrues." />{" "}
 					<span className="ml-1 text-gray-300">
-						{toLocalString(Number(loan.value).toFixed(9))}{" "}
+						{toLocalString(loan.value)}{" "}
 						<small>{symbol}</small>
 					</span>
 				</div>
@@ -152,7 +152,7 @@ export const OpenLoanForm = () => {
 						).toFixed(2)}%`}
 					/>{" "}
 					<span className="ml-1 text-gray-300">
-						{toLocalString(Number(originationFeeAmount).toFixed(9))}{" "}
+						{toLocalString(originationFeeAmount)}{" "}
 						<small>{symbol}</small>
 					</span>
 				</div>
@@ -160,7 +160,7 @@ export const OpenLoanForm = () => {
 
 			<div className="mb-5 text-white/80">
 				You get:{" "}
-				{loan.value && loan.valid ? toLocalString(netLoanAmount.toFixed(9)) : 0}{" "}
+				{loan.value && loan.valid ? toLocalString(netLoanAmount) : 0}{" "}
 				<small>{symbol}</small>
 			</div>
 

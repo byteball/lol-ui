@@ -61,7 +61,7 @@ export const EquilibreSwapForm = () => {
     if (value === "." || value === ",") {
       setTokenAmount((o) => ({ ...o, value: "0.", valid: false }));
     } else if (
-      getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
+      getCountOfDecimals(value) <= (decimals < 18 ? decimals : 18) &&
       Number(value) <= 1e6 &&
       Number(value) >= 0
     ) {
@@ -77,7 +77,7 @@ export const EquilibreSwapForm = () => {
     if (value === "." || value === ",") {
       setCollateralAmount(o => ({ ...o, value: "0.", valid: false }));
     } else if (
-      getCountOfDecimals(value) <= (decimals < 9 ? decimals : 9) &&
+      getCountOfDecimals(value) <= (decimals < 18 ? decimals : 18) &&
       Number(value) <= 1e6 &&
       Number(value) >= 0
     ) {
@@ -218,7 +218,7 @@ export const EquilibreSwapForm = () => {
     <div className="block mb-5 text-sm font-medium text-white/60">
       {symbol} price
       <span className="ml-1 text-gray-300">
-        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(Number(collateralAmount.value / tokenAmount.value).toFixed(9)) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
+        {Number(tokenAmount.value) && Number(collateralAmount.value) ? toLocalString(collateralAmount.value / tokenAmount.value) : (tokenAmount.calculating || collateralAmount.calculating ? "loading..." : 0)}{" "}
         {!tokenAmount.calculating && !collateralAmount.calculating ? <small>{collateralSymbol} </small> : null}
       </span>
     </div>

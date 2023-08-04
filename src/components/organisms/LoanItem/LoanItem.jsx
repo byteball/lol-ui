@@ -78,9 +78,7 @@ export const LoanItem = ({
 						<QuestionTooltip description="The amount needed to repay the loan now. It includes the interest accrued so far." />{" "}
 					</div>
 					<div className="font-semibold text-white text-md">
-						{toLocalString(
-							(+formatEther(current_loan_amount || loan_amount)).toPrecision(7)
-						)}{" "}
+						{toLocalString(formatEther(current_loan_amount || loan_amount))}{" "}
 						<small>LINE</small>
 					</div>
 				</div>
@@ -88,7 +86,7 @@ export const LoanItem = ({
 				<div className="basis-full xs:basis-2/4">
 					<div className="text-sm font-light text-white/60">Collateral</div>
 					<div className="font-semibold text-white text-md">
-						{toLocalString((+formatEther(collateral_amount)).toPrecision(7))} <small>GBYTE</small>
+						{toLocalString(formatEther(collateral_amount))} <small>GBYTE</small>
 					</div>
 				</div>
 			</div>

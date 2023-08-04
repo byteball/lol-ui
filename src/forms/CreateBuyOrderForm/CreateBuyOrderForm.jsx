@@ -39,8 +39,8 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 		if (value === "." || value === ",") {
 			setAmount({ value: "0.", valid: false });
 		} else if (
-			getCountOfDecimals(value) <= 9 &&
-			Number(value) <= 1e6 &&
+			getCountOfDecimals(value) <= 18 &&
+			Number(value) <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setAmount({ value, valid });
@@ -54,8 +54,8 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 		if (value === "." || value === ",") {
 			setStrikePrice({ value: "0.", valid: false });
 		} else if (
-			getCountOfDecimals(value) <= 9 &&
-			value <= 1e6 &&
+			getCountOfDecimals(value) <= 18 &&
+			value <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setStrikePrice({ value, valid });
@@ -70,8 +70,8 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 		if (value === "." || value === ",") {
 			setHedgePrice({ value: "0.", valid: false });
 		} else if (
-			getCountOfDecimals(value) <= 9 &&
-			Number(value) <= 1e6 &&
+			getCountOfDecimals(value) <= 18 &&
+			Number(value) <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setHedgePrice({ value, valid });
@@ -167,7 +167,7 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 				<div className="mb-5 text-sm font-medium text-white/60">
 					Est. max loan amount
 					<span className="ml-1 text-gray-300">
-						{toLocalString(estTokenAmount.toFixed(9))} <small>LINE</small>
+						{toLocalString(estTokenAmount)} <small>LINE</small>
 					</span>
 				</div>
 			)}

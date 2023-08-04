@@ -85,13 +85,7 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
           ${data[0]?.data &&
 					`<div class="mb-2 last:mb-0">
             ${data[0].data.buy_order_id ? "Amount" : "Loan amount"
-					}: ${toLocalString(
-						+Number(
-							data[0].data.buy_order_id
-								? data[0]?.data.amount
-								: data[0]?.data.current_loan_amount
-						).toFixed(9)
-					)} ${data[0].data.buy_order_id ? collateralSymbol : tokenSymbol}
+					}: ${toLocalString(data[0].data.buy_order_id ? data[0]?.data.amount : data[0]?.data.current_loan_amount)} ${data[0].data.buy_order_id ? collateralSymbol : tokenSymbol}
           </div>`
 					}
 
@@ -99,7 +93,7 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 						.map(
 							({ name, value }) => `
           <div class="mb-2 last:mb-0">
-            ${transformTooltipNames(name)}: ${name !== "type" ? toLocalString(+Number(value).toFixed(9)) : value
+            ${transformTooltipNames(name)}: ${name !== "type" ? toLocalString(value) : value
 						} ${name !== "type" ? collateralSymbol : ""}
           </div>
         `

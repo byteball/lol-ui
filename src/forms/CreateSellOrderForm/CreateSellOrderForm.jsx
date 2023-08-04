@@ -54,8 +54,8 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 		if (value === "." || value === ",") {
 			setPrice({ value: "0.", valid: false });
 		} else if (
-			getCountOfDecimals(value) <= 9 &&
-			Number(value) <= 1e6 &&
+			getCountOfDecimals(value) <= 18 &&
+			Number(value) <= 1e9 &&
 			Number(value) >= 0
 		) {
 			setPrice({ value, valid });
@@ -180,7 +180,7 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 				>
 					Strike price <QuestionTooltip description={<span>test</span>} />{" "}
 					<span className="ml-1 text-gray-300">
-						{toLocalString(Number(estimatedPoint.strike_price).toFixed(9))}{" "}
+						{toLocalString(estimatedPoint.strike_price)}{" "}
 						<small>GBYTE</small>
 					</span>
 				</div>
@@ -190,7 +190,7 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 				<div className="block text-sm font-medium text-white/60">
 					Hedge price <QuestionTooltip description={<span>test</span>} />{" "}
 					<span className="ml-1 text-gray-300">
-						{toLocalString(Number(estimatedPoint.hedge_price).toFixed(9))}{" "}
+						{toLocalString(estimatedPoint.hedge_price)}{" "}
 						<small>GBYTE</small>
 					</span>
 				</div>

@@ -170,7 +170,7 @@ export const SelectedOrder = ({
 					Amount{" "}
 					<QuestionTooltip description="Maximum amount the buyer is willing to pay for loans" />
 					<span className="ml-1 text-gray-300">
-						{toLocalString(selectedOrder.amount.toFixed(9))}{" "}
+						{toLocalString(selectedOrder.amount)}{" "}
 						<small>{collateralSymbol}</small>
 					</span>
 				</div>
@@ -181,7 +181,7 @@ export const SelectedOrder = ({
 					Loan amount{" "}
 					<QuestionTooltip description="Current loan amount, including the accrued interest" />
 					<span className="ml-1 text-gray-300">
-						{toLocalString(selectedOrder.current_loan_amount.toFixed(9))}{" "}
+						{toLocalString(selectedOrder.current_loan_amount)}{" "}
 						<small>{tokenSymbol}</small>
 					</span>
 				</div>
@@ -192,7 +192,7 @@ export const SelectedOrder = ({
 					Collateral amount{" "}
 					<QuestionTooltip description="Collateral backing the loan. It’s what you get if you repay the loan." />
 					<span className="ml-1 text-gray-300">
-						{toLocalString(selectedOrder.collateral_amount.toFixed(9))}{" "}
+						{toLocalString(selectedOrder.collateral_amount)}{" "}
 						<small>{collateralSymbol}</small>
 					</span>
 				</div>
@@ -208,7 +208,7 @@ export const SelectedOrder = ({
 					}
 				/>
 				<span className="ml-1 text-gray-300">
-					{toLocalString(+selectedOrder.strike_price.toFixed(9))}{" "}
+					{toLocalString(selectedOrder.strike_price)}{" "}
 					<small>{collateralSymbol}</small>
 				</span>
 			</div>
@@ -218,7 +218,7 @@ export const SelectedOrder = ({
 					Loan price{" "}
 					<QuestionTooltip description="How much the seller asks for the loan." />
 					<span className="ml-1 text-gray-300">
-						{toLocalString(Number(selectedOrder.price).toFixed(9))}{" "}
+						{toLocalString(selectedOrder.price)}{" "}
 						<small>{collateralSymbol}</small>
 					</span>
 				</div>
@@ -234,7 +234,7 @@ export const SelectedOrder = ({
 					}
 				/>
 				<span className="ml-1 text-gray-300">
-					{toLocalString(+selectedOrder.hedge_price.toFixed(9))}{" "}
+					{toLocalString(selectedOrder.hedge_price)}{" "}
 					<small>{collateralSymbol}</small>
 				</span>
 			</div>
