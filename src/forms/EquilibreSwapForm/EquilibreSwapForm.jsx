@@ -90,7 +90,7 @@ export const EquilibreSwapForm = () => {
     const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, provider);
     const res = await contract.getAmountOut(parseUnits(String(amount)), tokenIn, tokenOut);
 
-    return (Math.floor(Number(formatUnits(res[0], 18)) * 1e9) / 1e9).toFixed(9).replace(/0*$/, "")
+    return (Math.floor(Number(formatUnits(res[0], 18)) * 1e18) / 1e18).toFixed(18).replace(/0*$/, "")
   };
 
   useLazyEffect(() => {
