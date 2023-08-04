@@ -179,9 +179,9 @@ export const OpenLoanForm = () => {
 					Send {collateral.valid ? toLocalString(collateral.value) : ""}{" "}
 					{collateralSymbol}
 				</MetaMaskButton>
-				{!loans.length && <div className="px-2 pt-2 text-xs text-center text-white/60">
+				<div className="px-2 pt-2 text-xs text-center text-white/60">
 					GBYTE is Obyte's native token, you can get it <a href="https://getmein.ooo/" target="_blank" className="text-primary" rel="noopener">here</a>
-				</div>}
+				</div>
 			</div>
 		</>
 	);
