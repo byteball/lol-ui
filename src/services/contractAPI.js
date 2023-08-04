@@ -366,7 +366,8 @@ class contractsAPI {
 						contract0.symbol(),
 						contract1.symbol(),
 					]);
-					const p0 = +(await getTokenPrice(token0, state.params.oracle)).toFixed(9) * 1e9;
+
+					const p0 = parseUnits((await getTokenPrice(token0, state.params.oracle)).toFixed(9), 9);
 
 					const lpBigIntPriceInUSD =
 						(2n * getReserves[0] * BigInt(String(p0))) / totalSupply;
