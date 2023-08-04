@@ -182,7 +182,7 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 				start: [linePrice, "min"],
 				end: [linePrice, "9999"],
 				style: {
-					stroke: "#ccc",
+					stroke: "#0D5095",
 					lineWidth: 1,
 				},
 			},
@@ -191,24 +191,25 @@ export default memo(({ setSelectedOrder, estimatedPoint, orders }) => {
 				start: [linePrice, "min"],
 				end: [linePrice, "max"],
 				style: {
-					stroke: "#ccc",
+					stroke: "#0D5095",
 					lineWidth: 1,
 				},
 				text: {
 					content: "Current price",
 					position: "bottom",
 					offsetY: 90,
-					offsetX: -10,
+					offsetX: -5,
 					style: {
-						fill: "#ccc",
-						fontSize: 14,
+						fill: "#0D5095",
+						fontSize: 12,
+						fontWeight: "bold"
 					},
 					background: {
-						padding: 4,
-						style: {
-							radius: 4,
-							fill: "rgba(256, 256, 256, 0.2)",
-						},
+						// padding: 0,
+						// style: {
+						// 	radius: 4,
+						// 	fill: "rgba(256, 256, 256, 0.2)",
+						// },
 					},
 				},
 			},
