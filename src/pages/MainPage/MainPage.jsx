@@ -35,7 +35,7 @@ export const MainPage = () => {
 			</div>
 
 			<div className="relative flex flex-col-reverse lg:flex-row lg:space-x-5 mt-[50px] max-w-4xl mx-auto">
-				<div className="z-50 h-[100%] p-3 mt-5 text-gray-400 border-2 shadow-xl lg:mt-0 basis-2/3 sm:p-5 xs:p-4 bg-gray-950 border-primary/30 shadow-gray-950 rounded-xl">
+				<div className="z-50 h-[100%] p-3 mt-5 text-gray-400 border-2 shadow-xl lg:mt-0 basis-2/3 sm:p-5 xs:p-4 bg-gray-950 border-primary/30 shadow-gray-950 rounded-xl pb-2 xs:pb-2 sm:pb-2">
 					{(wasFirstInited && inited && price) ? (
 						<>
 							<Tabs value={tab} onChange={(v) => setTab(v)}>
@@ -44,14 +44,16 @@ export const MainPage = () => {
 								{!appConfig.TESTNET ? <Tabs.Item value="buysell">Buy/Sell</Tabs.Item> : null}
 							</Tabs>
 
-							<div className="mt-7">
+							<div className="mt-3 sm:mt-5 xs:mt-4">
 								{tab === "borrow" && <OpenLoanForm />}
 								{tab === "my" && <LoanList />}
 								{tab === "buysell" && <EquilibreSwapForm />}
 							</div>
 						</>
 					) : (
-						<Spin />
+						<div className="pb-1 sm:pb-3 xs:pb-2">
+							<Spin />
+						</div>
 					)}
 				</div>
 

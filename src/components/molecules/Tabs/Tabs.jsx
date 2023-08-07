@@ -2,10 +2,10 @@ import { Children, cloneElement } from "react";
 import cn from "classnames";
 
 const Tabs = ({ children, onChange, value }) => (
-	<div className="mb-4">
-		<nav className="flex space-x-3 rounded-xl" aria-label="Tabs">
+	<div className="mb-2">
+		<nav className="flex flex-wrap rounded-xl" aria-label="Tabs">
 			{Children.toArray(children).map((tab, i) => (
-				<div key={String(tab.props.value)}>
+				<div key={String(tab.props.value)} className="mb-2 mr-3">
 					{cloneElement(tab, {
 						current: tab.props.value === value,
 						onChange,

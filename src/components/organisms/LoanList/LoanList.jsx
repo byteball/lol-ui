@@ -42,7 +42,7 @@ export const LoanList = () => {
 
 	if (!walletAddress)
 		return (
-			<div className="text-center text-gray-600">
+			<div className="pb-3 text-center text-gray-600 sm:pb-5 xs:pb-4">
 				Please,{" "}
 				<button className="font-bold underline" onClick={logIn}>
 					login
@@ -51,10 +51,10 @@ export const LoanList = () => {
 		);
 
 	if (!sortedLoans || !sortedLoans.length)
-		return <div className="text-center text-gray-600">No active loans</div>;
+		return <div className="pb-3 text-center text-gray-600 sm:pb-5 xs:pb-4">No active loans</div>;
 
 	return (
-		<div>
+		<div className="pb-3 sm:pb-4 xs:pb-3">
 			{sortedLoans.map(
 				({
 					loan_num,
