@@ -43,9 +43,9 @@ export const LoanList = () => {
 	if (!walletAddress)
 		return (
 			<div className="pb-3 text-center text-gray-600 sm:pb-5 xs:pb-4">
-				Please,{" "}
+				Please{" "}
 				<button className="font-bold underline" onClick={logIn}>
-					login
+					log in
 				</button>
 			</div>
 		);
