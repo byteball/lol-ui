@@ -180,7 +180,7 @@ export const OpenLoanForm = () => {
 					{collateralSymbol}
 				</MetaMaskButton>
 				<div className="px-2 pt-2 text-xs text-center text-white/60">
-					GBYTE is Obyte's native token, you can get it <a href="https://getmein.ooo/" target="_blank" className="text-primary" rel="noopener">here</a>
+					GBYTE is Obyte's native token, you can get it <a href="https://getmein.ooo/" target="_blank" className="text-primary" rel="noopener">here</a> and bridge to Kava via <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake</a>
 				</div>
 			</div>
 		</>

@@ -21,7 +21,7 @@ const faqs = [
 				<ol>
 					<li>
 						Bridge your GBYTEs from <a href="https://obyte.org" target="_blank" rel="noopener" className="text-primary">Obyte</a> to Kava over <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake bridge</a> (if
-						you are already an Obyte user. Otherwise, you can buy GBYTEs on
+						you are already an Obyte user. Otherwise, you can buy GBYTEs on{" "}
 						<a href="https://equilibrefinance.com/" target="_blank" rel="noopener" className="text-primary">Equilibre DEX</a> on Kava).
 					</li>
 					<li>Use your GBYTE-on-Kava to borrow LINE tokens here.</li>
@@ -29,7 +29,7 @@ const faqs = [
 					<li>
 						Hold your LINE tokens in your Obyte wallet. Kava rise rewards dapps
 						for their TVL on the Kava network. We receive these rewards monthly
-						and distribute most of them to users who bridged their tokens from
+						and distribute 90% of them to users who bridged their tokens from
 						Kava to Obyte (which you did). You’ll receive your share of rewards
 						monthly to your Obyte wallet, you don’t have to do anything else. Track your rewards at <a href="https://kava.obyte.org" target="_blank" rel="noopener" className="text-primary">kava.obyte.org</a>.
 					</li>
@@ -123,7 +123,7 @@ const faqs = [
 					Our dapps LINE and <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake</a> participate in this program and get a
 					share of these rewards. While the teams of some other participating
 					dapps keep their Kava Rise rewards in their treasuries, we convert
-					them to GBYTE and distribute most of the rewards to the users who
+					them to GBYTE and distribute 90% of the rewards to the users who
 					actually contribute TVL and bridge their tokens to Obyte.
 				</p>
 				<p>
