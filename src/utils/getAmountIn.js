@@ -99,14 +99,14 @@ export const getAmountIn = async (inAsset, outAsset, outAmount) => {
     const [reserveA, reserveB] = inAsset.toLowerCase() === token0.toLowerCase() ? [_reserve0, _reserve1] : [_reserve1, _reserve0];
     const [decimalsA, decimalsB] = inAsset.toLowerCase() === token0.toLowerCase() ? [d0, d1] : [d1, d0];
 
-    const fees = +formatUnits(fee.toString(), BigInt("4"));
+    const formattedFee = +formatUnits(fee.toString(), BigInt("4"));
 
     const resA = +formatUnits(reserveA.toString(), decimalsA);
     const resB = +formatUnits(reserveB.toString(), decimalsB);
 
     let amountIn = ((outAmount * resA) / (resB - outAmount)) / 10 ** (Number(decimalsB.toString()) - Number(decimalsA.toString()));
 
-    amountIn += amountIn * fees;
+    amountIn += amountIn * formattedFee;
 
     return [amountIn > 0 ? amountIn : null, [{ from: inAsset, to: outAsset, stable: false }]];
   } else {
