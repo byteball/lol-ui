@@ -26,6 +26,7 @@ import {
 	RepaidEvent,
 	SoldLoanEvent,
 	StakeEvent,
+	TransferLoanNftEvent,
 	UnstakeEvent,
 } from "./events";
 
@@ -139,6 +140,8 @@ export const bootstrap = async () => {
 	NFTLoanContract.on("NewBuyOrder", NewBuyOrderEvent);
 
 	NFTLoanContract.on("FilledBuyOrder", FilledBuyOrderEvent);
+
+	NFTLoanContract.on("Transfer", TransferLoanNftEvent); // ERC721 event
 
 	console.log("log: connect time", new Date().toLocaleString());
 };

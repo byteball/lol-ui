@@ -9,3 +9,4 @@ export { recognizeMetamaskError } from "./recognizeMetamaskError";
 export { calcStrikePrice } from "./calcStrikePrice";
 export { getLinePrice } from "./getLinePrice";
 export { getTitleByPathname } from "./getTitleByPathname";
+export { getAmountIn } from "./getAmountIn";

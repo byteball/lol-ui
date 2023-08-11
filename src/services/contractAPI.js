@@ -1,8 +1,10 @@
 import { ethers, formatUnits, parseUnits } from "ethers";
+import moment from "moment";
 
 import LineAbi from "@/abi/Line.json";
 import LoanNFTAbi from "@/abi/LoanNFT.json";
 import EquilibrePairAbi from "@/abi/EquilibrePair.json";
+import BorrowViaEquilibreAbi from "@/abi/BorrowViaEquilibre.json";
 
 import appConfig from "@/appConfig";
 import { changeNetwork, getTokenPrice } from "@/utils";
@@ -45,8 +47,10 @@ class contractsAPI {
 		}
 	}
 
-	async approve(amount, tokenAddress, contractAddress = appConfig.CONTRACT) {
+	async approve(amount, tokenAddress, contractAddress) {
 		const state = store.getState();
+
+		if (tokenAddress === ethers.ZeroAddress) return;
 
 		const token = tokenAddress || state.settings.collateralTokenAddress;
 		const signer = await this.getSigner();
@@ -57,12 +61,12 @@ class contractsAPI {
 
 		const allowance = await tokenContract.allowance(
 			sender_address,
-			contractAddress
+			contractAddress || appConfig.CONTRACT
 		);
 
 		if (allowance <= BigInt(String(amount))) {
 			const approval_res = await tokenContract.approve(
-				contractAddress,
+				contractAddress || appConfig.CONTRACT,
 				MAX_UINT256
 			);
 
@@ -140,6 +144,38 @@ class contractsAPI {
 		const contract = new ethers.Contract(appConfig.CONTRACT, LineAbi, signer);
 		await contract.borrow(collateralAmount);
 	}
+
+	async borrowViaEquilibre(assetIn, amountIn, amountOutMin, routes) {
+		await this.changeNetwork();
+
+		const signer = await this.getSigner();
+		const state = store.getState();
+
+		if (!state.settings.walletAddress) {
+			const address = await signer.getAddress();
+
+			store.dispatch(saveAddressAndLoadLoans(address));
+		} else {
+			const isUserAddress = await this.checkAddress();
+
+			if (!isUserAddress) return;
+		}
+
+		await this.addToken();
+
+		await this.approve(amountIn, assetIn, appConfig.EQUILIBRE_SWAP_AND_BORROW_CONTRACT);
+
+		const helperContract = new ethers.Contract(appConfig.EQUILIBRE_SWAP_AND_BORROW_CONTRACT, BorrowViaEquilibreAbi, signer);
+
+		if (assetIn === ethers.ZeroAddress) {
+			await helperContract.swapAndBorrow(BigInt(amountIn), BigInt(amountOutMin), routes, Number(moment().unix() + 10 * 60 * 100).toString(), {
+				value: BigInt(amountIn)
+			});
+		} else {
+			await helperContract.swapAndBorrow(BigInt(amountIn), BigInt(amountOutMin), routes, BigInt(Number(moment().unix() + 10 * 60 * 100).toString()));
+		}
+	}
+
 
 	async repay(loan_num) {
 		await this.changeNetwork();
