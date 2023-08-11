@@ -22,6 +22,7 @@ import loansSlice from "./slices/loansSlice";
 import poolsSlice from "./slices/poolsSlice";
 import marketSlice from "./slices/marketSlice";
 import priceSlice from "./slices/priceSlice";
+import cacheSlice from "./slices/cacheSlice";
 
 const rootReducer = combineReducers({
 	notifications: notificationsSlice,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
 	pools: poolsSlice,
 	market: marketSlice,
 	price: priceSlice,
+	cache: cacheSlice
 });
 
 const getStore = () => {

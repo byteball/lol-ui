@@ -10,3 +10,4 @@ export { FilledBuyOrderEvent } from "./filledBuyOrder";
 export { NewBuyOrderEvent } from "./newBuyOrder";
 export { NewSellOrderEvent } from "./newSellOrder";
 export { BoughtLoanEvent } from "./boughtLoan";
+export { TransferLoanNftEvent } from "./transferLoanNft";

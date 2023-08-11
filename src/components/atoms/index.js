@@ -4,3 +4,4 @@ export { Notifications } from "./Notifications/Notifications";
 export { Spin } from "./Spin/Spin";
 export { Redirect } from "./Redirect/Redirect";
 export { Checkbox } from "./Checkbox/Checkbox";
+export { default as Select } from "./Select/Select";
