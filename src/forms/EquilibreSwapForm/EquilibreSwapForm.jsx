@@ -135,7 +135,7 @@ export const EquilibreSwapForm = () => {
     try {
       setLoading(true);
       const signer = await contractAPI.getSigner();
-
+      await contractAPI.changeNetwork();
       await contractAPI.approve(type === "buy" ? parseUnits(String(collateralAmount.value), 18) : parseUnits(String(tokenAmount.value), 18), type === "buy" ? collateralTokenAddress : appConfig.CONTRACT, appConfig.EQUILIBRE_ROUTER_CONTRACT);
       const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, signer);
 
