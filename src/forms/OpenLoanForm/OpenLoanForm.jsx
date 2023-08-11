@@ -300,7 +300,7 @@ export const OpenLoanForm = () => {
 					onClick={openLoan}
 				>
 					{(inputToken.value !== collateralTokenAddress && inputToken.loading)
-						? "Amount is calculating..."
+						? "Calculating the amount..."
 						: (
 							inputToken.value !== collateralTokenAddress && inputToken.amount === null
 								? `Send ${inputToken.symbol}`
