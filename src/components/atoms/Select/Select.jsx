@@ -35,13 +35,13 @@ const Select = ({ label, placeholder, children, value, onChange, className = "",
         </Combobox.Label>
       )}
       <div className="relative mt-2">
-        <Combobox.Input
-          className={cn("block border w-full h-[45px] rounded-lg border-primary/20 bg-primary/10 text-white px-4 text-md font-normal focus:outline-none focus:ring-1 focus:border-primary/30 focus:ring-primary/30", {"text-white/50 cursor-not-allowed" : disabled})}
-          onChange={(event) => setQuery(event.target.value)}
-          displayValue={(asset) => (isArray(children) ? children.find((item) => item.props?.value === asset)?.props?.children : children?.props?.children)}
-          placeholder={placeholder}
+        <Combobox.Button
+          className={cn("block text-left border w-full h-[45px] rounded-lg border-primary/20 bg-primary/10 text-white px-4 text-md font-normal focus:outline-none focus:ring-1 focus:border-primary/30 focus:ring-primary/30", { "text-white/50 cursor-not-allowed": disabled })}
           autoComplete="off"
-        />
+        >
+          {children.find((item) => item.props?.value === value)?.props?.children || placeholder}
+        </Combobox.Button>
+
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center px-2 rounded-r-lg focus:outline-none">
           <ChevronUpDownIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
         </Combobox.Button>
