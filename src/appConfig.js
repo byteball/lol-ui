@@ -9,6 +9,7 @@ export default {
 	USDT_CONTRACT: import.meta.env.VITE_USDT_CONTRACT,
 	PAIR_FACTORY_ADDRESS: import.meta.env.VITE_PAIR_FACTORY_ADDRESS,
 	WKAVA_ADDRESS: import.meta.env.VITE_WKAVA_ADDRESS,
+	SLIPPAGE_TOLERANCE_PERCENT: 3,
 	RPC_META:
 		import.meta.env.VITE_TESTNET === "1"
 			? {

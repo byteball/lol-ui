@@ -139,7 +139,7 @@ export const EquilibreSwapForm = () => {
       await contractAPI.approve(type === "buy" ? parseUnits(String(collateralAmount.value), 18) : parseUnits(String(tokenAmount.value), 18), type === "buy" ? collateralTokenAddress : appConfig.CONTRACT, appConfig.EQUILIBRE_ROUTER_CONTRACT);
       const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, signer);
 
-      const res = await contract.swapExactTokensForTokensSimple(type === "buy" ? parseUnits(Number(collateralAmount.value).toFixed(18), 18) : parseUnits(Number(tokenAmount.value).toFixed(18), 18), type === "buy" ? parseUnits(Number(tokenAmount.value * 0.97).toFixed(18), 18) : parseUnits(Number(collateralAmount.value * 0.97).toFixed(18), 18), type === 'buy' ? collateralTokenAddress : appConfig.CONTRACT, type === 'buy' ? appConfig.CONTRACT : collateralTokenAddress, false, walletAddress, BigInt(String(Date.now() + 1000 * 60 * 60)));
+      const res = await contract.swapExactTokensForTokensSimple(type === "buy" ? parseUnits(Number(collateralAmount.value).toFixed(18), 18) : parseUnits(Number(tokenAmount.value).toFixed(18), 18), type === "buy" ? parseUnits(Number(tokenAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18) : parseUnits(Number(collateralAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18), type === 'buy' ? collateralTokenAddress : appConfig.CONTRACT, type === 'buy' ? appConfig.CONTRACT : collateralTokenAddress, false, walletAddress, BigInt(String(Date.now() + 1000 * 60 * 60)));
 
       dispatch(
         sendNotification({
@@ -211,7 +211,7 @@ export const EquilibreSwapForm = () => {
     <div className="block mb-1 text-sm font-medium text-white/60">
       Slippage tolerance
       <span className="ml-1 text-gray-300">
-        3%
+        {appConfig.SLIPPAGE_TOLERANCE_PERCENT}%
       </span>
     </div>
 

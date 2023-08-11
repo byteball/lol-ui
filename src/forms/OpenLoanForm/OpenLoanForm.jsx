@@ -135,7 +135,7 @@ export const OpenLoanForm = () => {
 			if (inputToken.value !== collateralTokenAddress) {
 				const inputTokenDecimals = inputToken.value !== ethers.ZeroAddress ? +decimalsByToken[inputToken.value.toLowerCase()] : 18;
 
-				await contractAPI.borrowViaEquilibre(inputToken.value, parseUnits(Number(inputToken.amount).toFixed(inputTokenDecimals), BigInt(String(inputTokenDecimals))).toString(), parseUnits(Number(collateral.value * 0.97).toFixed(18), BigInt("18")).toString(), inputToken.route);
+				await contractAPI.borrowViaEquilibre(inputToken.value, parseUnits(Number(inputToken.amount).toFixed(inputTokenDecimals), BigInt(String(inputTokenDecimals))).toString(), parseUnits(Number(collateral.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), BigInt("18")).toString(), inputToken.route);
 
 				ReactGA.event({
 					category: "loan",
@@ -259,7 +259,7 @@ export const OpenLoanForm = () => {
 				{inputToken.value !== collateralTokenAddress && <div className="block mb-1 text-sm font-medium text-white/60">
 					Slippage tolerance
 					<span className="ml-1 text-gray-300">
-						3%
+						{appConfig.SLIPPAGE_TOLERANCE_PERCENT}%
 					</span>
 				</div>}
 
