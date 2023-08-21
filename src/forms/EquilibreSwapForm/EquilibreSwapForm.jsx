@@ -11,6 +11,7 @@ import { MetaMaskButton } from "@/components/molecules";
 
 import { selectCollateralSymbol, selectCollateralTokenAddress, selectDecimals, selectSymbol, selectWalletAddress } from "@/store/slices/settingsSlice"
 import { sendNotification } from "@/store/thunks/sendNotification";
+import { saveAddressAndLoadLoans } from "@/store/thunks/saveAddressAndLoadLoans";
 
 import { getCountOfDecimals, recognizeMetamaskError, toLocalString } from "@/utils";
 
@@ -139,7 +140,13 @@ export const EquilibreSwapForm = () => {
       await contractAPI.approve(type === "buy" ? parseUnits(String(collateralAmount.value), 18) : parseUnits(String(tokenAmount.value), 18), type === "buy" ? collateralTokenAddress : appConfig.CONTRACT, appConfig.EQUILIBRE_ROUTER_CONTRACT);
       const contract = new Contract(appConfig.EQUILIBRE_ROUTER_CONTRACT, equilibreABI, signer);
 
-      const res = await contract.swapExactTokensForTokensSimple(type === "buy" ? parseUnits(Number(collateralAmount.value).toFixed(18), 18) : parseUnits(Number(tokenAmount.value).toFixed(18), 18), type === "buy" ? parseUnits(Number(tokenAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18) : parseUnits(Number(collateralAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18), type === 'buy' ? collateralTokenAddress : appConfig.CONTRACT, type === 'buy' ? appConfig.CONTRACT : collateralTokenAddress, false, walletAddress, BigInt(String(Date.now() + 1000 * 60 * 60)));
+      const wallet = walletAddress || await signer.getAddress();
+      
+      if(!walletAddress) {
+        dispatch(saveAddressAndLoadLoans(wallet));
+      }
+      
+      const res = await contract.swapExactTokensForTokensSimple(type === "buy" ? parseUnits(Number(collateralAmount.value).toFixed(18), 18) : parseUnits(Number(tokenAmount.value).toFixed(18), 18), type === "buy" ? parseUnits(Number(tokenAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18) : parseUnits(Number(collateralAmount.value * ((100 - appConfig.SLIPPAGE_TOLERANCE_PERCENT) / 100)).toFixed(18), 18), type === 'buy' ? collateralTokenAddress : appConfig.CONTRACT, type === 'buy' ? appConfig.CONTRACT : collateralTokenAddress, false, wallet, BigInt(String(Date.now() + 1000 * 60 * 60)));
 
       dispatch(
         sendNotification({
@@ -201,7 +208,7 @@ export const EquilibreSwapForm = () => {
     onChange={collateralHandleChange}
   />];
 
-  const swapDisabled = !tokenAmount.valid || !collateralAmount.valid || Number(tokenAmount.value) <= 0 || Number(collateralAmount.value) <= 0 || tokenAmount.calculating || collateralAmount.calculating || !walletAddress;
+  const swapDisabled = !tokenAmount.valid || !collateralAmount.valid || Number(tokenAmount.value) <= 0 || Number(collateralAmount.value) <= 0 || tokenAmount.calculating || collateralAmount.calculating;
 
   return <div>
     <div className="block mb-3 text-sm font-medium text-white/60">
