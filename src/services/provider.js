@@ -20,7 +20,7 @@ class Provider {
 			this.provider.destroy();
 		});
 
-		this.connectionIntervalId = null;
+		this.connectingIntervalId = null;
 
 		this.RECONNECT_INTERVAL = 5000; // ms
 		this.TIME_OUT = 60 * 1000; // ms
@@ -46,9 +46,9 @@ class Provider {
 		this.provider.websocket.addEventListener("open", () => {
 			this.ready = true;
 
-			if (this.connectionIntervalId) {
-				clearInterval(this.connectionIntervalId);
-				this.connectionIntervalId = null;
+			if (this.connectingIntervalId) {
+				clearInterval(this.connectingIntervalId);
+				this.connectingIntervalId = null;
 			}
 
 			console.log("log: open connection");
@@ -114,8 +114,8 @@ class Provider {
 
 			console.log("log: offline");
 
-			if (!this.connectionIntervalId) {
-				this.connectionIntervalId = setInterval(() => {
+			if (!this.connectingIntervalId) {
+				this.connectingIntervalId = setInterval(() => {
 					this.connect();
 				}, this.RECONNECT_INTERVAL);
 			}
