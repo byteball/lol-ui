@@ -10,10 +10,20 @@ import { updatePrice } from "@/store/thunks/updatePrice";
 class Provider {
 	constructor(url) {
 		this.url = url;
+		this.online = navigator.onLine;
+
 		this.connect();
 
-		this.RECONNECT_INTERVAL = 1000; // ms
-		this.TIME_OUT = 10 * 1000; // ms
+		window.addEventListener('online', () => this.online = true);
+		window.addEventListener('offline', () => {
+			this.online = false;
+			this.provider.destroy();
+		});
+
+		this.connectionIntervalId = null;
+
+		this.RECONNECT_INTERVAL = 5000; // ms
+		this.TIME_OUT = 60 * 1000; // ms
 		this.lastBlockTs = null;
 		this.onConnectCb = [];
 		this.onCloseCb = [];
@@ -32,14 +42,21 @@ class Provider {
 	setProvider() {
 		this.provider = new ethers.WebSocketProvider(this.url);
 
-		this.provider.on("block", (blockNumber) => {
-			this.lastBlockTs = Date.now();
-			// console.log(`log: new block - ${blockNumber}`);
-		});
 
 		this.provider.websocket.addEventListener("open", () => {
 			this.ready = true;
+
+			if (this.connectionIntervalId) {
+				clearInterval(this.connectionIntervalId);
+				this.connectionIntervalId = null;
+			}
+
 			console.log("log: open connection");
+
+			this.provider.on("block", (blockNumber) => {
+				this.lastBlockTs = Date.now();
+				console.log(`log: new block - ${blockNumber}`);
+			});
 
 			this.checkIntervalId = setInterval(() => {
 				if (
@@ -88,19 +105,22 @@ class Provider {
 			this.ready = false;
 			this.onCloseCb.forEach((onClose) => onClose());
 
-			if (!this.reconnectTimeout) {
-				this.reconnectTimeout = setTimeout(
-					() => this.connect.bind(this),
-					this.RECONNECT_INTERVAL
-				);
-			}
+			this.connect();
 		});
 	}
 
 	connect() {
-		if (this.reconnectTimeout) {
-			clearTimeout(this.reconnectTimeout);
-			this.reconnectTimeout = null;
+		if (!this.online) {
+
+			console.log("log: offline");
+
+			if (!this.connectionIntervalId) {
+				this.connectionIntervalId = setInterval(() => {
+					this.connect();
+				}, this.RECONNECT_INTERVAL);
+			}
+
+			return;
 		}
 
 		if (this.ready) {
@@ -154,11 +174,9 @@ provider.onConnect(async () => {
 });
 
 provider.onClose(() => {
-	if (this.priceUpdateIntervalId !== undefined) {
-		clearInterval(this.priceUpdateIntervalId);
+	if (provider.priceUpdateIntervalId !== undefined) {
+		clearInterval(provider.priceUpdateIntervalId);
 	}
 
 	store.dispatch(clearMarkets());
 });
-
-// wss://polygon-testnet.blastapi.io/98fe42bc-87ca-4c5f-9d7d-58f31df3619a
