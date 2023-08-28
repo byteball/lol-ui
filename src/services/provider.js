@@ -4,7 +4,6 @@ import appConfig from "@/appConfig";
 
 import { store } from "..";
 
-import { clearMarkets } from "@/store/slices/marketSlice";
 import { updatePrice } from "@/store/thunks/updatePrice";
 
 class Provider {
@@ -178,5 +177,5 @@ provider.onClose(() => {
 		clearInterval(provider.priceUpdateIntervalId);
 	}
 
-	store.dispatch(clearMarkets());
+	// store.dispatch(clearMarkets());
 });
