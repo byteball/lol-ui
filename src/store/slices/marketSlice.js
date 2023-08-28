@@ -54,10 +54,12 @@ export const marketSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loadMarketOrders.fulfilled, (state, action) => {
-			state.loading = false;
-			state.inited = true;
-			state.sellOrders = action.payload?.sell || [];
-			state.buyOrders = action.payload?.buy || [];
+			if (action.payload) {
+				state.loading = false;
+				state.inited = true;
+				state.sellOrders = action.payload?.sell || [];
+				state.buyOrders = action.payload?.buy || [];
+			}
 		});
 	},
 });
