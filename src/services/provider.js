@@ -4,8 +4,8 @@ import appConfig from "@/appConfig";
 
 import { store } from "..";
 
-import { clearMarkets } from "@/store/slices/marketSlice";
 import { updatePrice } from "@/store/thunks/updatePrice";
+import { clearMarkets } from "@/store/slices/marketSlice";
 
 class Provider {
 	constructor(url) {
