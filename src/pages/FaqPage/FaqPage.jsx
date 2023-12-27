@@ -246,7 +246,7 @@ const faqs = [
 			<div>
 				<p>
 					To determine how many LINE tokens you can borrow for your collateral,
-					we use the latest market price of <a href="https://equilibrefinance.com/liquidity/0xfb1efb5fd9dfb72f40b81bc5aa0e15d616ba8831" target="_blank" rel="noopener" className="text-primary">LINE on Equilibre DEX</a> in combination
+					we use the latest market price of <a href="https://equilibrefinance.com/pools/manage/0xfb1efb5fd9dfb72f40b81bc5aa0e15d616ba8831" target="_blank" rel="noopener" className="text-primary">LINE on Equilibre DEX</a> in combination
 					with time-weighted average price (TWAP) over the last day. To prevent
 					price manipulation, we use the higher of the latest market and TWAP
 					prices.
