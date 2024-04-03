@@ -117,7 +117,7 @@ const faqs = [
 					contribute to Kava’s TVL. Kava gives out 1,000,000 KAVA tokens
 					(roughly $1m at the current exchange rate) every month to developers
 					of all participating dapps in proportion to their share of <a href="https://defillama.com/chain/Kava" target="_blank" rel="noopener" className="text-primary">Kava's
-					total TVL as determined by DefiLlama</a>.
+						total TVL as determined by DefiLlama</a>.
 				</p>
 				<p>
 					Our dapps LINE and <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake</a> participate in this program and get a
@@ -344,40 +344,21 @@ export const FaqPage = () => (
 			<title>{appConfig.titles.faq}</title>
 		</Helmet>
 
-		<dl className="space-y-6 divide-y divide-primary/10">
+		<div className="space-y-8 divide-y divide-primary/10">
 			{faqs.map((faq) => (
-				<Disclosure as="div" key={faq.question} className="pt-6">
-					{({ open }) => (
-						<>
-							<dt>
-								<Disclosure.Button className="flex items-start justify-between w-full text-left text-white">
-									<span className="text-2xl font-semibold leading-7">
-										{faq.question}
-									</span>
-									<span className="flex items-center ml-6 h-7">
-										{open ? (
-											<MinusSmallIcon
-												className="w-6 h-6 text-primary/40"
-												aria-hidden="true"
-											/>
-										) : (
-											<PlusSmallIcon
-												className="w-6 h-6 text-primary/40"
-												aria-hidden="true"
-											/>
-										)}
-									</span>
-								</Disclosure.Button>
-							</dt>
-							<Disclosure.Panel as="dd" className="pr-12 mt-2">
-								<p className="text-base leading-7 prose prose-2xl text-gray-300">
-									{faq.answer}
-								</p>
-							</Disclosure.Panel>
-						</>
-					)}
-				</Disclosure>
+				<div key={faq.question} className="pt-6">
+					<div>
+						<div className="flex items-start justify-between w-full text-2xl font-semibold leading-7 text-left text-white">
+							{faq.question}
+						</div>
+						<div className="pr-12 mt-2">
+							<p className="text-base leading-7 prose prose-2xl text-gray-300">
+								{faq.answer}
+							</p>
+						</div>
+					</div>
+				</div>
 			))}
-		</dl>
+		</div>
 	</PageLayout>
 );
