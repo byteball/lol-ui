@@ -348,7 +348,7 @@ export const FaqPage = () => (
 			{faqs.map((faq) => (
 				<div key={faq.question} className="pt-6">
 					<div>
-						<div className="flex items-start justify-between w-full text-2xl font-semibold leading-7 text-left text-white">
+						<div className="flex items-start justify-between w-full max-w-2xl text-2xl font-semibold leading-8 text-left text-white">
 							{faq.question}
 						</div>
 						<div className="pr-12 mt-2">
