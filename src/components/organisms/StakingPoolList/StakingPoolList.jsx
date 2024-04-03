@@ -63,7 +63,7 @@ const StakingPoolListItem = ({
 					<div>Pool</div>
 				</div>
 				<a
-					href={`https://equilibrefinance.com/liquidity/${address}`}
+					href={`https://equilibrefinance.com/pools/manage/${address}`}
 					target="_blank"
 					className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"
 				>
