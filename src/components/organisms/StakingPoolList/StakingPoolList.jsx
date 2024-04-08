@@ -30,7 +30,6 @@ export const StakingPoolList = () => {
 					<StakingPoolListItem
 						walletAddress={walletAddress}
 						key={index}
-						apy={23.12 * index}
 						walletBalance={walletBalance[pool.address] || null}
 						{...pool}
 					/>
