@@ -1,6 +1,5 @@
 import { ethers, formatUnits, parseUnits } from "ethers";
 import moment from "moment";
-import Big from 'big.js';
 
 import LineAbi from "@/abi/Line.json";
 import LoanNFTAbi from "@/abi/LoanNFT.json";
