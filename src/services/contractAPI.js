@@ -294,32 +294,19 @@ class contractsAPI {
 			provider
 		);
 
-		const totalDebt = await lineContract.total_debt();
+		const totalDebt = await lineContract.total_debt().then((d) => Number(d) / 1e18);
 
-		const totalRewardPerYearE18 =
-			(BigInt(state.params.interestRate * 10000) * totalDebt) / 10000n;
-		const linePriceInCollateralE18 =
-			await lineContract.getCurrentInterestMultiplier();
-		const collateralTokenPriceE18 = BigInt(
-			Math.floor(+Number(collateralTokenPrice).toFixed(18) * 1e18).toString()
-		);
+		const totalRewardPerYear = state.params.interestRate * totalDebt;
 
-		const poolRewardPerYearE18 =
-			(totalRewardPerYearE18 * BigInt(reward_share10000)) / 10000n;
-		const poolRewardPerYearInUSDe36 =
-			(poolRewardPerYearE18 *
-				collateralTokenPriceE18 *
-				linePriceInCollateralE18) /
-			10n ** 18n;
+		const linePriceInCollateral = await lineContract.getCurrentInterestMultiplier().then((d) => Number(d) / 1e18);
+		
+		const poolRewardPerYear = totalRewardPerYear * Number(reward_share10000) * 1e-4;
 
-		const tokenPriceE18 = parseUnits(Number(tokenPriceInUSD).toFixed(18), 18);
+		const poolRewardPerYearInUSD = poolRewardPerYear * collateralTokenPrice * linePriceInCollateral;
+		
+		if (!tokenPriceInUSD) return 0;
 
-		if (tokenPriceE18 === 0n) return 0;
-
-		return +(
-			poolRewardPerYearInUSDe36 /
-			(BigInt(totalStakedInPoolE18) * tokenPriceE18)
-		).toString();
+		return poolRewardPerYearInUSD / (Number(totalStakedInPoolE18 * 1e-18 * tokenPriceInUSD));
 	}
 
 	async getAllPools({ collateralTokenPrice }) {
