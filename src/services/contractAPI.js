@@ -1,5 +1,6 @@
 import { ethers, formatUnits, parseUnits } from "ethers";
 import moment from "moment";
+import Big from 'big.js';
 
 import LineAbi from "@/abi/Line.json";
 import LoanNFTAbi from "@/abi/LoanNFT.json";
@@ -294,32 +295,19 @@ class contractsAPI {
 			provider
 		);
 
-		const totalDebt = await lineContract.total_debt();
+		const totalDebt = await lineContract.total_debt().then((d) => Big(d).mul(1e-18).toNumber());
 
-		const totalRewardPerYearE18 =
-			(BigInt(state.params.interestRate * 10000) * totalDebt) / 10000n;
-		const linePriceInCollateralE18 =
-			await lineContract.getCurrentInterestMultiplier();
-		const collateralTokenPriceE18 = BigInt(
-			Math.floor(+Number(collateralTokenPrice).toFixed(18) * 1e18).toString()
-		);
+		const totalRewardPerYear = Big(state.params.interestRate).mul(totalDebt).toNumber();
 
-		const poolRewardPerYearE18 =
-			(totalRewardPerYearE18 * BigInt(reward_share10000)) / 10000n;
-		const poolRewardPerYearInUSDe36 =
-			(poolRewardPerYearE18 *
-				collateralTokenPriceE18 *
-				linePriceInCollateralE18) /
-			10n ** 18n;
+		const linePriceInCollateralE18 = await lineContract.getCurrentInterestMultiplier();
+		
+		const poolRewardPerYear = totalRewardPerYear * Big(reward_share10000).mul(1e-4).toNumber();
 
-		const tokenPriceE18 = parseUnits(Number(tokenPriceInUSD).toFixed(18), 18);
+		const poolRewardPerYearInUSD = Big(poolRewardPerYear).mul(collateralTokenPrice).mul(linePriceInCollateralE18).mul(1e-18).toNumber();
+		
+		if (!tokenPriceInUSD) return 0;
 
-		if (tokenPriceE18 === 0n) return 0;
-
-		return +(
-			poolRewardPerYearInUSDe36 /
-			(BigInt(totalStakedInPoolE18) * tokenPriceE18)
-		).toString();
+		return poolRewardPerYearInUSD / (Big(totalStakedInPoolE18).mul("1e-18").mul(tokenPriceInUSD)).toNumber();
 	}
 
 	async getAllPools({ collateralTokenPrice }) {
