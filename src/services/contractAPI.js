@@ -297,12 +297,10 @@ class contractsAPI {
 		const totalDebt = await lineContract.total_debt().then((d) => Number(d) / 1e18);
 
 		const totalRewardPerYear = state.params.interestRate * totalDebt;
-
-		const linePriceInCollateral = await lineContract.getCurrentInterestMultiplier().then((d) => Number(d) / 1e18);
 		
 		const poolRewardPerYear = totalRewardPerYear * Number(reward_share10000) * 1e-4;
 
-		const poolRewardPerYearInUSD = poolRewardPerYear * collateralTokenPrice * linePriceInCollateral;
+		const poolRewardPerYearInUSD = poolRewardPerYear * collateralTokenPrice * state.price;
 		
 		if (!tokenPriceInUSD) return 0;
 
