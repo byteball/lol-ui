@@ -46,6 +46,7 @@ const StakingPoolListItem = ({
 	apy,
 	walletBalance,
 	decimals = 18,
+	isPool = false
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -59,16 +60,16 @@ const StakingPoolListItem = ({
 		<li className="flex flex-wrap items-center w-full px-4 py-3 space-y-2 border rounded-md shadow lg:space-y-0 lg:gap-4 lg:flex-nowrap bg-primary/10 border-primary/20">
 			<div className="basis-[100%] w-full lg:basis-[30%] lg:w-[30%]">
 				<div className="flex items-center mb-1 space-x-1 text-sm leading-none text-white/60">
-					<div>Pool</div>
+					{isPool ? <div>Pool</div> : <div>Token</div>}
 				</div>
-				<a
+				{symbol === "LINE" ? <span className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"><p className="overflow-hidden truncate">{symbol}</p></span> : <a
 					href={`https://equilibrefinance.com/pools/manage/${address}`}
 					target="_blank"
 					className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"
 				>
 					<p className="overflow-hidden truncate">{symbol}</p>{" "}
 					<ArrowTopRightOnSquareIcon className="inline shrink-0 w-[1em] h-[1em]" />
-				</a>
+				</a>}
 			</div>
 
 			<div className="basis-1/2 lg:basis-[25%]">
