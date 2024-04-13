@@ -285,6 +285,7 @@ class contractsAPI {
 		totalStakedInPoolE18,
 		tokenPriceInUSD,
 		reward_share10000,
+		symbol
 	}) {
 		const state = store.getState();
 
@@ -357,13 +358,7 @@ class contractsAPI {
 						.catch(() => (pools[index].decimals = 18)),
 				];
 
-				let isPool = false;
-
-				try {
-					isPool = await tokenContract.token1().then(() => true);
-				} catch (err) {
-					console.log(err);
-				}
+				const isPool = await tokenContract.token1().then(() => true).catch(() => false);
 
 				let tokenSymbol = await tokenContract.symbol().catch(() => "NO SYMBOL");
 
@@ -407,6 +402,7 @@ class contractsAPI {
 						totalStakedInPoolE18,
 						tokenPriceInUSD: pools[index].tokenPriceInUSD,
 						reward_share10000,
+						symbol: pools[index].symbol,
 					});
 				} else {
 					pools[index].apy = 0;
