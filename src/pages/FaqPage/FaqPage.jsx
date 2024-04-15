@@ -316,8 +316,8 @@ const faqs = [
 				<Link to="/staking/all" className="text-primary">
 					the staking page
 				</Link>{" "}
-				and get rewards in LINE tokens. The rewards are funded by fees collected
-				from borrowers. Eligible pools are listed on{" "}
+				and get rewards in LINE tokens. You can also just stake your LINE tokens and get a share of rewards. The rewards are funded by fees collected
+				from borrowers. Eligible pools and tokens are listed on{" "}
 				<Link to="/staking/all" className="text-primary">
 					the staking page
 				</Link>
