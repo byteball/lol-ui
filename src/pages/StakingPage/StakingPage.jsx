@@ -44,7 +44,7 @@ export const StakingPage = () => {
 	return (
 		<PageLayout
 			title="Staking"
-			description="Fees charged from borrowers are used to incentivize liquidity in some pools where LINE is traded. Provide liquidity in such pools, stake your LP tokens here, and get rewards."
+			description="Fees charged from borrowers are used to incentivize holding LINE and providing liquidity in some pools where LINE is traded. Stake LINE, or provide liquidity in such pools and stake your LP tokens here, and get rewards."
 		>
 			<Helmet>
 				<title>{appConfig.titles.staking}</title>
