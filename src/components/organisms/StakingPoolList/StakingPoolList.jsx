@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
+import Tooltip from "rc-tooltip";
 
 import { QuestionTooltip } from "@/components/molecules";
 import { Button } from "@/components/atoms";
@@ -110,9 +111,20 @@ const StakingPoolListItem = ({
 			</div>
 
 			<div className="basis-[100%] w-[100%] lg:basis-[20%] lg:w-[20%]">
-				<Button block type="light" disabled={disabled} onClick={() => setOpen(true)}>
+				{disabled ? <Tooltip
+					placement="top"
+					trigger={["hover"]}
+					overlayClassName="max-w-[250px]"
+					overlay={<span>Staking disabled</span>}
+				>
+					<div>
+						<Button block type="light" disabled={disabled}>
+							Stake
+						</Button>
+					</div>
+				</Tooltip> : <Button block type="light" disabled={disabled} onClick={() => setOpen(true)}>
 					Stake
-				</Button>
+				</Button>}
 
 				<StakingDrawer
 					open={open}

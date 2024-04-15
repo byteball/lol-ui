@@ -20,6 +20,7 @@ export const selectUserPoolsWithMeta = createDraftSafeSelector(
 					decimals: meta.decimals,
 					tokenPriceInUSD: meta.tokenPriceInUSD,
 					apy: meta.apy,
+					isPool: meta.isPool
 				};
 			})
 			.filter((p) => !!p && (p.stake !== "0" || p.reward !== "0"))
