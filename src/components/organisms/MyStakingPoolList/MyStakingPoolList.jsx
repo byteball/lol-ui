@@ -16,6 +16,8 @@ import appConfig from "@/appConfig";
 export const MyStakingPoolList = () => {
 	const userPools = useSelector(selectUserPoolsWithMeta);
 
+	const userPoolsWithDisabledOption = userPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOLS_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
+
 	const walletAddress = useSelector(selectWalletAddress);
 	const loading = useSelector(selectUserPoolsLoading);
 
@@ -23,7 +25,7 @@ export const MyStakingPoolList = () => {
 
 	if (loading) return <Spin />;
 
-	if (!userPools.length) {
+	if (!userPoolsWithDisabledOption.length) {
 		return (
 			<div className="text-center text-gray-600">
 				You haven't staked any tokens yet
@@ -34,7 +36,7 @@ export const MyStakingPoolList = () => {
 	return (
 		<div>
 			<ul role="list" className="space-y-4">
-				{userPools.map(({ symbol, address, stake, apy, reward, decimals }) => (
+				{userPoolsWithDisabledOption.map(({ symbol, address, stake, apy, reward, decimals, isPool, disabled }) => (
 					<MyStakingPoolItem
 						key={address}
 						address={address}
@@ -43,6 +45,8 @@ export const MyStakingPoolList = () => {
 						apy={apy}
 						decimals={decimals}
 						accumulatedReward={reward}
+						isPool={isPool}
+						stakingDisabled={disabled}
 					/>
 				))}
 			</ul>
@@ -57,6 +61,8 @@ const MyStakingPoolItem = ({
 	stakingBalance = "0",
 	decimals = 18,
 	accumulatedReward = "0",
+	isPool = false,
+	stakingDisabled = false
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -75,16 +81,16 @@ const MyStakingPoolItem = ({
 		<li className="flex flex-wrap items-center w-full px-4 py-3 space-y-2 overflow-hidden border rounded-md shadow lg:space-y-0 lg:gap-4 lg:flex-nowrap bg-primary/10 border-primary/20">
 			<div className="basis-[100%] leading-tight w-full lg:basis-[30%] lg:w-[30%]">
 				<div className="flex items-center mb-1 space-x-1 text-sm leading-none text-white/60">
-					<div>Pool</div>
+					{isPool ? <div>Pool</div> : <div>Token</div>}
 				</div>
-				<a
+				{!isPool ? <span className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"><p className="overflow-hidden truncate">{symbol}</p></span> : <a
 					href={`https://equilibrefinance.com/pools/manage/${address}`}
 					target="_blank"
 					className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"
 				>
 					<p className="overflow-hidden truncate">{symbol}</p>{" "}
 					<ArrowTopRightOnSquareIcon className="inline shrink-0 w-[1em] h-[1em]" />
-				</a>
+				</a>}
 			</div>
 
 			<div className="basis-1/2 leading-tight lg:basis-[15%]">
@@ -94,7 +100,7 @@ const MyStakingPoolItem = ({
 				</div>
 				<div className="mt-3 text-lg font-bold leading-none">
 					{apy !== undefined ? (
-						apyView
+						!stakingDisabled ? apyView : <span>&mdash;</span>
 					) : (
 						<div className="h-[1em] w-[6em] rounded-md bg-white/20 animate-pulse" />
 					)}
@@ -139,6 +145,7 @@ const MyStakingPoolItem = ({
 					address={address}
 					stakingBalance={stakingBalance}
 					accumulatedReward={accumulatedReward}
+					stakingDisabled={stakingDisabled}
 				/>
 			</div>
 		</li>

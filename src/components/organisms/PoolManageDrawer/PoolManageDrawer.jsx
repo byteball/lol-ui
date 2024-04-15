@@ -11,27 +11,28 @@ export const PoolManageDrawer = ({
 	address,
 	accumulatedReward,
 	stakingBalance,
+	stakingDisabled = false
 }) => {
-	const [tab, setTab] = useState("stake");
+	const [tab, setTab] = useState(stakingDisabled ? "claim" : "stake");
 
 	const onClose = () => setOpen(false);
 
 	return (
 		<Drawer open={open} setOpen={setOpen} title={`Stake ${symbol}`}>
 			<Tabs value={tab} onChange={(tab) => setTab(tab)}>
-				<Tabs.Item value="stake">Stake more</Tabs.Item>
+				{!stakingDisabled ? <Tabs.Item value="stake">Stake more</Tabs.Item> : null}
 				<Tabs.Item value="claim">Claim reward</Tabs.Item>
 				<Tabs.Item value="unstake">Unstake</Tabs.Item>
 			</Tabs>
 
-			{tab === "stake" && (
+			{(tab === "stake" && !stakingDisabled) ? (
 				<StakingForm
 					symbol={symbol}
 					decimals={decimals}
 					address={address}
 					onClose={onClose}
 				/>
-			)}
+			) : null}
 
 			{tab === "unstake" && (
 				<UnstakeForm
