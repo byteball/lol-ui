@@ -64,7 +64,7 @@ export const Layout = ({ children }) => {
 				</div>
 
 				<a href="https://obyte.org" target="_blank" rel="noopener">
-					&copy; {new Date().getFullYear()} Obyte. All Rights Reserved.
+					&copy; 2023-{new Date().getFullYear()} Obyte. All Rights Reserved.
 				</a>
 			</div>
 		</div>
