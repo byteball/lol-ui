@@ -22,7 +22,7 @@ export const StakingPoolList = () => {
 
 	const allPools = useSelector(selectAllPools);
 
-	const allPoolsWithDisabledOption = allPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOLS_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
+	const allPoolsWithDisabledOption = allPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOL_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
 
 	if (!allPoolsWithDisabledOption.length)
 		return <div className="text-center text-gray-600">No active pools</div>;

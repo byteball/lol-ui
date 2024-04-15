@@ -16,7 +16,7 @@ import appConfig from "@/appConfig";
 export const MyStakingPoolList = () => {
 	const userPools = useSelector(selectUserPoolsWithMeta);
 
-	const userPoolsWithDisabledOption = userPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOLS_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
+	const userPoolsWithDisabledOption = userPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOL_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
 
 	const walletAddress = useSelector(selectWalletAddress);
 	const loading = useSelector(selectUserPoolsLoading);
