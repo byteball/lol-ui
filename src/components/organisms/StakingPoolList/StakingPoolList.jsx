@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
+import Tooltip from "rc-tooltip";
 
 import { QuestionTooltip } from "@/components/molecules";
 import { Button } from "@/components/atoms";
@@ -13,6 +14,7 @@ import {
 import { selectAllPools } from "@/store/slices/poolsSlice";
 import appConfig from "@/appConfig";
 import { StakingDrawer } from "../StakingDrawer/StakingDrawer";
+import cn from "classnames";
 
 export const StakingPoolList = () => {
 	const walletAddress = useSelector(selectWalletAddress);
@@ -20,13 +22,15 @@ export const StakingPoolList = () => {
 
 	const allPools = useSelector(selectAllPools);
 
-	if (!allPools.length)
+	const allPoolsWithDisabledOption = allPools.map((pool) => ({ ...pool, disabled: appConfig.DISABLED_POOL_ADDRESSES.includes(pool.address) })).sort((a, b) => a.disabled - b.disabled);
+
+	if (!allPoolsWithDisabledOption.length)
 		return <div className="text-center text-gray-600">No active pools</div>;
 
 	return (
 		<div>
 			<ul role="list" className="space-y-4">
-				{allPools.map((pool, index) => (
+				{allPoolsWithDisabledOption.map((pool, index) => (
 					<StakingPoolListItem
 						walletAddress={walletAddress}
 						key={index}
@@ -46,7 +50,8 @@ const StakingPoolListItem = ({
 	apy,
 	walletBalance,
 	decimals = 18,
-	isPool = false
+	isPool = false,
+	disabled = false
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -57,12 +62,12 @@ const StakingPoolListItem = ({
 		walletBalance && toBalanceString(walletBalance, decimals);
 
 	return (
-		<li className="flex flex-wrap items-center w-full px-4 py-3 space-y-2 border rounded-md shadow lg:space-y-0 lg:gap-4 lg:flex-nowrap bg-primary/10 border-primary/20">
+		<li className={cn("flex flex-wrap items-center w-full px-4 py-3 space-y-2 border rounded-md shadow lg:space-y-0 lg:gap-4 lg:flex-nowrap bg-primary/10 border-primary/20", { "opacity-50": disabled })}>
 			<div className="basis-[100%] w-full lg:basis-[30%] lg:w-[30%]">
 				<div className="flex items-center mb-1 space-x-1 text-sm leading-none text-white/60">
 					{isPool ? <div>Pool</div> : <div>Token</div>}
 				</div>
-				{symbol === "LINE" ? <span className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"><p className="overflow-hidden truncate">{symbol}</p></span> : <a
+				{!isPool ? <span className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"><p className="overflow-hidden truncate">{symbol}</p></span> : <a
 					href={`https://equilibrefinance.com/pools/manage/${address}`}
 					target="_blank"
 					className="flex items-center mt-3 space-x-2 text-lg font-bold leading-none"
@@ -79,7 +84,7 @@ const StakingPoolListItem = ({
 				</div>
 				<div className="mt-3 text-lg font-bold leading-none">
 					{apy !== undefined ? (
-						apyView
+						!disabled ? apyView : <span>&mdash;</span>
 					) : (
 						<div className="h-[1em] w-[6em] rounded-md bg-white/20 animate-pulse" />
 					)}
@@ -106,9 +111,20 @@ const StakingPoolListItem = ({
 			</div>
 
 			<div className="basis-[100%] w-[100%] lg:basis-[20%] lg:w-[20%]">
-				<Button block type="light" onClick={() => setOpen(true)}>
+				{disabled ? <Tooltip
+					placement="top"
+					trigger={["hover"]}
+					overlayClassName="max-w-[250px]"
+					overlay={<span>Staking disabled</span>}
+				>
+					<div>
+						<Button block type="light" disabled={disabled}>
+							Stake
+						</Button>
+					</div>
+				</Tooltip> : <Button block type="light" disabled={disabled} onClick={() => setOpen(true)}>
 					Stake
-				</Button>
+				</Button>}
 
 				<StakingDrawer
 					open={open}
