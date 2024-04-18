@@ -12,12 +12,31 @@ class Provider {
 		this.url = url;
 		this.online = navigator.onLine;
 
-		this.connect();
+		if (this.online) {
+			this.connect();
+		} else {
+			// dApp was opened with offline browser
 
-		window.addEventListener('online', () => this.online = true);
+			const connectingIntervalId = setInterval(() => {
+				if (this.online) {
+					this.connect();
+					clearInterval(connectingIntervalId);
+				} else {
+					console.log("log: try connect every 500ms");
+				}
+			}, 1000);
+		}
+
+		window.addEventListener('online', () => {
+			this.online = true;
+			console.log('log: online');
+		});
+
 		window.addEventListener('offline', () => {
 			this.online = false;
-			this.provider.destroy();
+			this.close();
+
+			console.log('log: offline');
 		});
 
 		this.connectingIntervalId = null;
@@ -31,6 +50,30 @@ class Provider {
 		this.ready = false;
 	}
 
+	async close(alreadyDestroy = false) {
+		if (!this.provider) {
+			console.log("log: can't close because provider doesn't exist");
+			return;
+		}
+
+		this.ready = false;
+		this.lastBlockTs = null;
+
+		if (this.checkIntervalId) {
+			clearInterval(this.checkIntervalId);
+		}
+
+		if (!alreadyDestroy) {
+			try {
+				await this.provider.destroy();
+			} catch (error) {
+				console.error('error: while closing connection:', error);
+			}
+		}
+
+		this.onCloseCb.forEach((onClose) => onClose());
+	}
+
 	onConnect(cb) {
 		this.onConnectCb.push(cb);
 	}
@@ -40,8 +83,12 @@ class Provider {
 	}
 
 	setProvider() {
-		this.provider = new ethers.WebSocketProvider(this.url);
-
+		try {
+			this.provider = new ethers.WebSocketProvider(this.url);
+		} catch (error) {
+			console.log('error: while setting up provider:', error);
+			return this.close();
+		}
 
 		this.provider.websocket.addEventListener("open", () => {
 			this.ready = true;
@@ -63,19 +110,20 @@ class Provider {
 					this.lastBlockTs &&
 					this.ready &&
 					this.provider.websocket &&
-					this.lastBlockTs + this.TIME_OUT <= Date.now()
+					(this.lastBlockTs + this.TIME_OUT) <= Date.now()
 				) {
 					console.log("log: need close connection (don't receive blocks)");
-
-					this.lastBlockTs = null;
-					this.ready = false;
 
 					clearInterval(this.checkIntervalId);
 					this.checkIntervalId = null;
 
-					this.connect();
+					this.close().then(()=> {
+						this.connect();
+					});
+				} else {
+					console.log("log: there is no reason to close the connection");
 				}
-			}, 5000);
+			}, 8000);
 
 			const state = store.getState();
 
@@ -96,49 +144,42 @@ class Provider {
 						this.dispatch = store.dispatch;
 						this.onConnectCb.forEach((onConnect) => onConnect());
 					}
-				}, 200);
+				}, 300);
 			}
 		});
 
-		this.provider.websocket.addEventListener("close", () => {
+		this.provider.websocket.addEventListener("close", async () => {
 			console.log("log: connection was closed");
-			this.ready = false;
-			this.onCloseCb.forEach((onClose) => onClose());
 
-			this.connect();
+			await this.close(true);
+
+			const waitUntilOnlineIntervalId = setInterval(() => {
+				if (this.online) {
+					clearInterval(waitUntilOnlineIntervalId);
+
+					this.connect();
+				}
+			}, this.RECONNECT_INTERVAL);
 		});
 	}
 
 	connect() {
-		if (!this.online) {
-
-			console.log("log: offline");
-
-			if (!this.connectingIntervalId) {
-				this.connectingIntervalId = setInterval(() => {
-					this.connect();
-				}, this.RECONNECT_INTERVAL);
-			}
-
-			return;
-		}
 
 		if (this.ready) {
 			console.log("log: already ready");
 			return;
 		}
 
-		if (this.provider) {
-			// reconnect
-			if (this.checkIntervalId) {
-				clearInterval(this.checkIntervalId);
+		if (!this.online) {
+			console.log("log: offline");
+
+			if (!this.connectingIntervalId) {
+				this.connectingIntervalId = setInterval(() => {
+					console.log("log: offline - let's try connect again");
+					this.connect();
+				}, this.RECONNECT_INTERVAL);
 			}
 
-			this.lastBlockTs = null;
-
-			this.provider.destroy().then(() => {
-				this.setProvider();
-			});
 		} else {
 			this.setProvider();
 		}
