@@ -50,7 +50,7 @@ class Provider {
 		this.ready = false;
 	}
 
-	async close(alreadyDestroy = false) {
+	async close(alreadyDestroyed = false) {
 		if (!this.provider) {
 			console.log("log: can't close because provider doesn't exist");
 			return;
@@ -63,7 +63,7 @@ class Provider {
 			clearInterval(this.checkIntervalId);
 		}
 
-		if (!alreadyDestroy) {
+		if (!alreadyDestroyed) {
 			try {
 				await this.provider.destroy();
 			} catch (error) {
