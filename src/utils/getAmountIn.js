@@ -4,7 +4,9 @@ import { provider } from "@/services/provider";
 
 import equilibrePair from "@/abi/EquilibrePair.json";
 
-import { addDecimals, addPair, addPairTokens, addReserves, updateFee } from "@/store/slices/cacheSlice";
+import { addPair, addPairTokens, addReserves, updateFee } from "@/store/slices/cacheSlice";
+
+import { getDecimals } from "./getDecimals";
 
 import appConfig from "@/appConfig";
 import { store } from "..";
@@ -62,27 +64,11 @@ export const getAmountIn = async (inAsset, outAsset, outAmount) => {
       dispatch(addReserves({ pair: pairContractAddress, reserves: [_reserve0.toString(), _reserve1.toString()] }));
     }
 
-    const erc20Abi = ["function decimals() view returns (uint256)"];
+    let d0 = await getDecimals(token0);
+    let d1 = await getDecimals(token1);
 
-    const token0Contract = new Contract(token0, erc20Abi, provider);
-    const token1Contract = new Contract(token1, erc20Abi, provider);
-
-    let d0 = state.cache.decimalsByToken[token0.toLowerCase()];
-    let d1 = state.cache.decimalsByToken[token1.toLowerCase()];
-
-    if (d0 === undefined) {
-      d0 = await token0Contract.decimals();
-      dispatch(addDecimals({ token: token0.toLowerCase(), decimals: d0.toString() }));
-    } else {
-      d0 = BigInt(d0);
-    }
-
-    if (d1 === undefined) {
-      d1 = await token1Contract.decimals();
-      dispatch(addDecimals({ token: token1.toLowerCase(), decimals: d1.toString() }));
-    } else {
-      d1 = BigInt(d1);
-    }
+    d0 = BigInt(d0);
+    d1 = BigInt(d1);
 
     _reserve0 = parseUnits(_reserve0.toString(), BigInt((18 - +(d0.toString())).toString()));
     _reserve1 = parseUnits(_reserve1.toString(), BigInt((18 - +(d1.toString())).toString()));

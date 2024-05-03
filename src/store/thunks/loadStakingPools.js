@@ -6,7 +6,7 @@ import { startPoolLoading } from "../slices/poolsSlice";
 import { updateCollateralTokenPrice } from "../slices/settingsSlice";
 
 import { loadUserBalance } from "./loadUserBalance";
-import { getTokenPrice } from "@/utils";
+import { getTokenPriceInUSD } from "@/utils";
 
 export const loadStakingPools = createAsyncThunk(
 	"loadStakingPools",
@@ -15,7 +15,7 @@ export const loadStakingPools = createAsyncThunk(
 
 		dispatch(startPoolLoading());
 
-		const collateralTokenPrice = await getTokenPrice(state.settings.collateralTokenAddress);
+		const collateralTokenPrice = await getTokenPriceInUSD(state.settings.collateralTokenAddress);
 		dispatch(updateCollateralTokenPrice(collateralTokenPrice));
 
 		const pools = await contractAPI.getAllPools({ collateralTokenPrice });

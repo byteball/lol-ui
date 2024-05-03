@@ -7,7 +7,7 @@ import EquilibrePairAbi from "@/abi/EquilibrePair.json";
 import BorrowViaEquilibreAbi from "@/abi/BorrowViaEquilibre.json";
 
 import appConfig from "@/appConfig";
-import { changeNetwork, getTokenPrice } from "@/utils";
+import { changeNetwork, getDecimals, getTokenPriceInUSD } from "@/utils";
 import { store } from "..";
 
 import { saveAddressAndLoadLoans } from "@/store/thunks/saveAddressAndLoadLoans";
@@ -281,11 +281,11 @@ class contractsAPI {
 	/*** Staking ***/
 
 	async getApyByPool({
-		collateralTokenPrice,
-		totalStakedInPoolE18,
+		collateralTokenPrice: collateralTokenPriceInUSD,
+		totalStakedInPoolInPennies,
 		tokenPriceInUSD,
 		reward_share10000,
-		symbol
+		tokenDecimals
 	}) {
 		const state = store.getState();
 
@@ -295,17 +295,21 @@ class contractsAPI {
 			provider
 		);
 
-		const totalDebt = await lineContract.total_debt().then((d) => Number(d) / 1e18);
+		const lineDecimals = state.settings.decimals;
+
+		const totalDebt = await lineContract.total_debt().then((d) => Number(d) / 10 ** lineDecimals);
+		const totalStakedInPool = totalStakedInPoolInPennies / 10 ** tokenDecimals;
+		const linePriceInCollateralTokens = state.price;
 
 		const totalRewardPerYear = state.params.interestRate * totalDebt;
 		
 		const poolRewardPerYear = totalRewardPerYear * Number(reward_share10000) * 1e-4;
 
-		const poolRewardPerYearInUSD = poolRewardPerYear * collateralTokenPrice * state.price;
+		const poolRewardPerYearInUSD = poolRewardPerYear * collateralTokenPriceInUSD * linePriceInCollateralTokens;
 		
-		if (!tokenPriceInUSD) return 0;
+		if (!tokenPriceInUSD || !poolRewardPerYearInUSD) return 0;
 
-		return poolRewardPerYearInUSD / (Number(totalStakedInPoolE18 * 1e-18 * tokenPriceInUSD));
+		return poolRewardPerYearInUSD / (totalStakedInPool * tokenPriceInUSD);
 	}
 
 	async getAllPools({ collateralTokenPrice }) {
@@ -341,7 +345,7 @@ class contractsAPI {
 
 		const poolMetaGetters = pools.map(
 			async (
-				{ address, reward_share10000, totalStakedInPool: totalStakedInPoolE18 },
+				{ address, reward_share10000, totalStakedInPool: totalStakedInPoolInPennies },
 				index
 			) => {
 				const tokenContract = new ethers.Contract(
@@ -350,13 +354,7 @@ class contractsAPI {
 					provider
 				);
 
-				const getters = [
-					tokenContract
-						.decimals()
-						.then((d) => +d.toString())
-						.then((decimals) => (pools[index].decimals = decimals))
-						.catch(() => (pools[index].decimals = 18)),
-				];
+				const tokenDecimals = await getDecimals(address);
 
 				const isPool = await tokenContract.token1().then(() => true).catch(() => false);
 
@@ -365,7 +363,7 @@ class contractsAPI {
 				pools[index].isPool = isPool;
 
 				if (isPool) {
-					const [token0, token1, totalSupply, getReserves] = await Promise.all([
+					const [token0, token1, _totalSupply, getReserves] = await Promise.all([
 						tokenContract.token0(),
 						tokenContract.token1(),
 						tokenContract.totalSupply(),
@@ -375,6 +373,8 @@ class contractsAPI {
 					pools[index].token0 = token0;
 					pools[index].token1 = token1;
 
+					const token0Decimals = await getDecimals(token0);
+
 					const contract0 = new ethers.Contract(token0, LineAbi, provider);
 					const contract1 = new ethers.Contract(token1, LineAbi, provider);
 
@@ -383,32 +383,34 @@ class contractsAPI {
 						contract1.symbol(),
 					]);
 
-					const p0 = parseUnits((await getTokenPrice(token0, state.params.oracle)).toFixed(9), 9);
+					const p0 = await getTokenPriceInUSD(token0, state.params.oracle, collateralTokenPrice);
 
-					const lpBigIntPriceInUSD =
-						(2n * getReserves[0] * BigInt(String(p0))) / totalSupply;
+					const reserve0 = Number(getReserves[0]) / 10 ** token0Decimals;
+					const totalSupply = Number(_totalSupply) / 10 ** tokenDecimals;
 
-					pools[index].tokenPriceInUSD = +formatUnits(lpBigIntPriceInUSD, 9);
+					const lpPriceInUSD = 2 * reserve0 * p0 / totalSupply;
+
+					pools[index].tokenPriceInUSD = lpPriceInUSD;
 
 					pools[index].symbol = tokenSymbol ? tokenSymbol : `${symbol0}-${symbol1}`;
 				} else {
 					pools[index].symbol = tokenSymbol;
-					pools[index].tokenPriceInUSD = await getTokenPrice(address, state.params.oracle);
+					pools[index].tokenPriceInUSD = await getTokenPriceInUSD(address, state.params.oracle, collateralTokenPrice);
 				}
 
-				if (totalStakedInPoolE18 !== "0") {
+				pools[index].decimals = tokenDecimals;
+				
+				if (totalStakedInPoolInPennies !== "0") {
 					pools[index].apy = await this.getApyByPool({
-						collateralTokenPrice,
-						totalStakedInPoolE18,
+						collateralTokenPrice, // inUSD
+						totalStakedInPoolInPennies,
 						tokenPriceInUSD: pools[index].tokenPriceInUSD,
 						reward_share10000,
-						symbol: pools[index].symbol,
+						tokenDecimals
 					});
 				} else {
 					pools[index].apy = 0;
 				}
-
-				return Promise.all(getters);
 			}
 		);
 
