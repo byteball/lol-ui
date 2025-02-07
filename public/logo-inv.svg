@@ -1,6 +1,6 @@
-<svg width="85" height="85" viewBox="0 0 85 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M82 42.5C82 64.3152 64.3152 82 42.5 82C20.6848 82 3 64.3152 3 42.5C3 20.6848 20.6848 3 42.5 3C64.3152 3 82 20.6848 82 42.5Z" stroke="#0281EB" stroke-width="6"/>
-<path d="M52 53.5C52 58.7467 47.7467 63 42.5 63C37.2533 63 33 58.7467 33 53.5C33 48.2533 37.2533 44 42.5 44C47.7467 44 52 48.2533 52 53.5Z" stroke="#0281EB" stroke-width="6"/>
-<rect x="20" y="19" width="6" height="47" rx="3" fill="#0281EB"/>
-<rect x="60" y="19" width="6" height="47" rx="3" fill="#0281EB"/>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M75 78.5C75 86.5081 68.5081 93 60.5 93C52.4919 93 46 86.5081 46 78.5C46 70.4919 52.4919 64 60.5 64C68.5081 64 75 70.4919 75 78.5Z" stroke="#0281EB" stroke-width="6"/>
+<rect x="27.5" y="24" width="8.47822" height="72" rx="4" fill="#0281EB"/>
+<rect x="84.0215" y="24" width="8.47822" height="72" rx="4" fill="#0281EB"/>
+<path d="M117 60C117 91.4802 91.4802 117 60 117C28.5198 117 3 91.4802 3 60C3 28.5198 28.5198 3 60 3C91.4802 3 117 28.5198 117 60Z" stroke="#0281EB" stroke-width="6"/>
 </svg>
