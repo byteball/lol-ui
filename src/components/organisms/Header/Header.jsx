@@ -24,12 +24,12 @@ export const Header = () => {
 			>
 				<div className="">
 					<Link to="/">
-						<span className="sr-only">Line</span>
+						<span className="sr-only">LOL</span>
 
 						<span className="flex items-center w-auto space-x-3 text-xl font-bold text-primary">
 							<img className="w-[40px] h-[40px]" src="/logo-inv.svg" />{" "}
 							<div>
-								LINE{" "}
+								LOL{" "}
 								{/* <sup>
 									<small>Beta</small>
 								</sup> */}
