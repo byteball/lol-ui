@@ -28,7 +28,7 @@ export const MainPage = () => {
 			<div className="text-3xl font-black tracking-tight text-center text-white md:text-4xl">
 				<div className="text-6xl md:text-8xl">
 					<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0281EB] via-[white] to-[#ff433e]">
-						LINE
+						LoL
 					</span>
 				</div>
 				A price-protected token
