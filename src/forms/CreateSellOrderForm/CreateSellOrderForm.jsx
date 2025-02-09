@@ -167,7 +167,7 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 				labelDescription="How much you want to be paid for the entire loan"
 				className="mb-3"
 				value={price.value}
-				suffix="GBYTE"
+				suffix="LINE"
 				onChange={handlePriceChange}
 				onKeyDown={handleKeyDown}
 			/>
@@ -178,20 +178,20 @@ export const CreateSellOrderForm = ({ setEstimatedPoint, estimatedPoint }) => {
 						"mb-1": estimatedPoint.hedge_price,
 					})}
 				>
-					Strike price <QuestionTooltip description={<span>The price of LINE the loan holder can get by repaying it</span>} />{" "}
+					Strike price <QuestionTooltip description={<span>The price of LOL the loan holder can get by repaying it</span>} />{" "}
 					<span className="ml-1 text-gray-300">
 						{toLocalString(estimatedPoint.strike_price)}{" "}
-						<small>GBYTE</small>
+						<small>LINE</small>
 					</span>
 				</div>
 			) : null}
 
 			{estimatedPoint.hedge_price ? (
 				<div className="block text-sm font-medium text-white/60">
-					Hedge price <QuestionTooltip description={<span>How much the buyer of the loan would pay for hedging 1 LINE</span>} />{" "}
+					Hedge price <QuestionTooltip description={<span>How much the buyer of the loan would pay for hedging 1 LOL</span>} />{" "}
 					<span className="ml-1 text-gray-300">
 						{toLocalString(estimatedPoint.hedge_price)}{" "}
-						<small>GBYTE</small>
+						<small>LINE</small>
 					</span>
 				</div>
 			) : null}

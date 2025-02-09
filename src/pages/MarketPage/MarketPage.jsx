@@ -102,12 +102,12 @@ export const MarketPage = () => {
 						<p>
 							Here you can buy and sell loans. Loans are put options — holding a
 							loan gives you the right (but not an obligation) to sell a certain
-							amount of LINE tokens for a certain price (strike price).
+							amount of LOL tokens for a certain price (strike price).
 						</p>
 						<p>
-							You can use them as a hedge if you hold LINE tokens. The hedge
+							You can use them as a hedge if you hold LOL tokens. The hedge
 							protects you against the drop in price — if it drops below the
-							strike price, you can sell your LINE tokens at the strike price by
+							strike price, you can sell your LOL tokens at the strike price by
 							repaying the loan.
 						</p>
 					</div>

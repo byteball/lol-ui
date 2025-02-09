@@ -203,7 +203,7 @@ export const SelectedOrder = ({
 				<QuestionTooltip
 					description={
 						isSellOrder
-							? "Current strike price of the loan — how many GBYTE you would get per 1 LINE of the loan amount. The strike price gradually goes down as interest accrues."
+							? "Current strike price of the loan — how many LINE you would get per 1 LOL of the loan amount. The strike price gradually goes down as interest accrues."
 							: "Minimum strike price of the loans the buyer is willing to buy"
 					}
 				/>
@@ -229,8 +229,8 @@ export const SelectedOrder = ({
 				<QuestionTooltip
 					description={
 						isSellOrder
-							? "How much you would pay per unit of hedge (1 LINE of loan amount) if you buy this loan."
-							: "Maximum price the buyer is prepared to pay per 1 LINE of loan amount"
+							? "How much you would pay per unit of hedge (1 LOL of loan amount) if you buy this loan."
+							: "Maximum price the buyer is prepared to pay per 1 LOL of loan amount"
 					}
 				/>
 				<span className="ml-1 text-gray-300">

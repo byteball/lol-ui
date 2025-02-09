@@ -45,7 +45,7 @@ const SelectLoanToSell = ({
 											{toLocalString(
 												(+formatUnits(value.collateral_amount, 18)).toFixed(7)
 											)}{" "}
-											<small>GBYTE</small>
+											<small>LINE</small>
 										</div>
 									</div>
 
@@ -53,14 +53,14 @@ const SelectLoanToSell = ({
 										<div className={cn("text-xs font-light")}>Strike price</div>
 										<div className={cn("font-semibold text-white text-sm")}>
 											{toLocalString(Number(value.loanStrikePrice).toFixed(7))}{" "}
-											<small>GBYTE</small>
+											<small>LINE</small>
 										</div>
 									</div>
 
 									<div className="mt-1 text-sm basic-full">
 										You get:{" "}
 										<span className="font-semibold text-white">
-											{toLocalString(value.price.toFixed(7))} GBYTE
+											{toLocalString(value.price.toFixed(7))} LINE
 										</span>
 									</div>
 								</div>
@@ -160,7 +160,7 @@ const Option = ({ value, disabled = false }) => (
 							{toLocalString(
 								(+formatUnits(value.collateral_amount, 18)).toFixed(7)
 							)}{" "}
-							<small>GBYTE</small>
+							<small>LINE</small>
 						</div>
 					</div>
 
@@ -173,7 +173,7 @@ const Option = ({ value, disabled = false }) => (
 							)}
 						>
 							{toLocalString(value.loanStrikePrice.toFixed(7))}{" "}
-							<small>GBYTE</small>
+							<small>LINE</small>
 						</div>
 					</div>
 
@@ -185,7 +185,7 @@ const Option = ({ value, disabled = false }) => (
 								disabled ? "font-normal" : "text-white"
 							)}
 						>
-							{toLocalString(value.price.toFixed(7))} GBYTE
+							{toLocalString(value.price.toFixed(7))} LINE
 						</span>
 					</div>
 				</div>

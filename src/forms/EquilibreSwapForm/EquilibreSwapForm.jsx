@@ -212,7 +212,7 @@ export const EquilibreSwapForm = () => {
 
   return <div>
     <div className="block mb-3 text-sm font-medium text-white/60">
-      Note that price protection works only if you obtain LINE by borrowing, not by buying.
+      Note that price protection works only if you obtain LOL by borrowing, not by buying.
     </div>
     <div className="mb-3">
       {type === "buy" ? controllers.reverse() : controllers}

@@ -28,10 +28,10 @@ export const MainPage = () => {
 			<div className="text-3xl font-black tracking-tight text-center text-white md:text-4xl">
 				<div className="text-6xl md:text-8xl">
 					<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0281EB] via-[white] to-[#ff433e]">
-						LoL
+						LOL
 					</span>
 				</div>
-				A price-protected token
+				Line-on-LINE, a price-protected token on top of <a href="https://linetoken.org" target="_blank" rel="noopener" className="underline">LINE</a>
 			</div>
 
 			<div className="relative flex flex-col-reverse lg:flex-row lg:space-x-5 mt-[50px] max-w-4xl mx-auto">

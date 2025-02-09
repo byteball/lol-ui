@@ -133,7 +133,7 @@ export const UnstakeForm = ({
 						{" "}
 						and your claimed reward{" "}
 						<b className="text-gray-300">
-							{toBalanceString(accumulatedReward, 18)} <small>LINE</small>
+							{toBalanceString(accumulatedReward, 18)} <small>LOL</small>
 						</b>
 					</>
 				)}

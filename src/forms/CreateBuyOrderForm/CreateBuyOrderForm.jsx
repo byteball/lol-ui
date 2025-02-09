@@ -158,7 +158,7 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 				value={hedgePrice.value}
 				placeholder=""
 				label="Hedge price"
-				labelDescription="Maximum price you are prepared to pay per 1 LINE of loan amount"
+				labelDescription="Maximum price you are prepared to pay per 1 LOL of loan amount"
 				suffix={collateralSymbol}
 				className="mb-5"
 			/>
@@ -167,7 +167,7 @@ export const CreateBuyOrderForm = ({ setEstimatedPoint }) => {
 				<div className="mb-5 text-sm font-medium text-white/60">
 					Est. max loan amount
 					<span className="ml-1 text-gray-300">
-						{toLocalString(estTokenAmount)} <small>LINE</small>
+						{toLocalString(estTokenAmount)} <small>LOL</small>
 					</span>
 				</div>
 			)}

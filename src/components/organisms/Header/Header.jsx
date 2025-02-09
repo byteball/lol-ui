@@ -80,10 +80,10 @@ export const Header = () => {
 							<img
 								className="inline-block w-[40px] h-[40px]"
 								src="/logo-inv.svg"
-								alt="LINE token"
+								alt="LOL token"
 							/>
 							<span className="text-white">
-								LINE{" "}
+								LOL{" "}
 								<sup>
 									<small>Beta</small>
 								</sup>

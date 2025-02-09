@@ -205,7 +205,7 @@ export const OpenLoanForm = () => {
 						disabled={loading}
 						value={collateral.value}
 						error={!!collateral.value && !collateral.valid}
-						labelDescription="The collateral you put in exchange for borrowing the LINE tokens. You can always repay the loan (plus interest) and get your collateral back."
+						labelDescription="The collateral you put in exchange for borrowing the LOL tokens. You can always repay the loan (plus interest) and get your collateral back."
 						className="mb-3"
 						placeholder=""
 						suffix={collateralSymbol}
@@ -218,7 +218,7 @@ export const OpenLoanForm = () => {
 						label="Pay with"
 						value={inputToken.value}
 						disabled={inputToken.loading && inputToken.value !== collateralTokenAddress}
-						labelDescription="If you pay with any token different from GBYTE, your payment token will be first swapped into GBYTE via Equilibre DEX, then sent to open a new loan."
+						labelDescription="If you pay with any token different from LINE, your payment token will be first swapped into LINE via Equilibre DEX, then sent to open a new loan."
 						onChange={handleChangeInputToken}
 					>
 						{inputTokenList.map((item) => (<Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>))}
@@ -308,7 +308,7 @@ export const OpenLoanForm = () => {
 						)}
 				</MetaMaskButton>
 				<div className="px-2 pt-2 text-xs text-center text-white/60">
-					GBYTE is Obyte's native token, you can get it <a href="https://getmein.ooo/" target="_blank" className="text-primary" rel="noopener">here</a> and bridge to Kava via <a href="https://counterstake.org" target="_blank" rel="noopener" className="text-primary">Counterstake</a>
+					LINE is the first price-protected token, you can get it at <a href="https://linetoken.org/" target="_blank" className="text-primary" rel="noopener">linetoken.org</a>
 				</div>
 			</div>
 		</>

@@ -50,7 +50,7 @@ const SelectLoanToSell = ({
 											{toLocalString(
 												(+formatUnits(value.collateral_amount, 18)).toFixed(7)
 											)}{" "}
-											<small>GBYTE</small>
+											<small>LINE</small>
 										</div>
 									</div>
 
@@ -72,7 +72,7 @@ const SelectLoanToSell = ({
 													18
 												)).toFixed(7)
 											)}{" "}
-											<small>GBYTE</small>
+											<small>LINE</small>
 										</div>
 									</div>
 								</div>
@@ -164,7 +164,7 @@ const Option = ({ value, disabled = false }) => (
 							{toLocalString(
 								(+formatUnits(value.collateral_amount, 18)).toFixed(7)
 							)}{" "}
-							<small>GBYTE</small>
+							<small>LINE</small>
 						</div>
 					</div>
 					<div className="basis-1/2">
@@ -184,7 +184,7 @@ const Option = ({ value, disabled = false }) => (
 									18
 								)).toFixed(7)
 							)}{" "}
-							<small>GBYTE</small>
+							<small>LINE</small>
 						</div>
 					</div>
 				</div>

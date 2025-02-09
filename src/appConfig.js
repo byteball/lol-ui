@@ -39,10 +39,10 @@ export default {
 				blockExplorerUrls: ["https://explorer.kava.io/"],
 			},
 	titles: {
-		default: "LINE — a price-protected token",
-		staking: "LINE token — Staking",
-		market: "LINE token — Market",
-		about: "LINE token — About us",
-		faq: "LINE token — F.A.Q."
+		default: "LOL — Line-on-LINE, a price-protected token on top of LINE, the first price-protected token",
+		staking: "LOL token — Staking",
+		market: "LOL token — Market",
+		about: "LOL token — About us",
+		faq: "LOL token — F.A.Q."
 	}
 };

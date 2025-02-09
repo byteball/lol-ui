@@ -39,7 +39,7 @@ export const ClaimForm = ({ accumulatedReward, address, onClose }) => {
 			<div className="text-white/60">
 				You will get your reward:{" "}
 				<b>
-					{toBalanceString(accumulatedReward, 18)} <small>LINE</small>
+					{toBalanceString(accumulatedReward, 18)} <small>LOL</small>
 				</b>
 				.
 			</div>
